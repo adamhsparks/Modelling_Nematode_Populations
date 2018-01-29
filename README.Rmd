@@ -31,11 +31,11 @@ In the original paper the population of _P. thornei_ in wheat in Queensland,
 Australia is modelled using a linear and quadratic equations. The study aimed to
 investigate the effects of soil profile temperatures after different sowing
 dates on reproduction of the nematodes in susceptible and moderately resistant
-wheat cultivars in the subtropical grain region of eastern Australia. Thi
-s document recreates the models for population densities of _P. thornei_
-as described in _Modelling population densities of root-lesion nematode
-(_P. thornei_) from soil profile temperatures to choose an optimum sowing date
-for wheat_ (Thompson 2015).
+wheat cultivars in the subtropical grain region of eastern Australia. This
+document recreates the models for population densities of _P. thornei_ as
+described in _Modelling population densities of root-lesion nematode_ (P.
+thornei) _from soil profile temperatures to choose an optimum sowing date for
+wheat_ (Thompson 2015).
 
 There are two types of models described in the paper, the first model is a
 linear model used to describe the unplanted control and two quadratic models fit

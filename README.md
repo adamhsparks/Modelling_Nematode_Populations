@@ -28,10 +28,10 @@ Queensland, Australia is modelled using a linear and quadratic
 equations. The study aimed to investigate the effects of soil profile
 temperatures after different sowing dates on reproduction of the
 nematodes in susceptible and moderately resistant wheat cultivars in the
-subtropical grain region of eastern Australia. Thi s document recreates
+subtropical grain region of eastern Australia. This document recreates
 the models for population densities of *P. thornei* as described in
-*Modelling population densities of root-lesion nematode (*P. thornei*)
-from soil profile temperatures to choose an optimum sowing date for
+*Modelling population densities of root-lesion nematode* (P. thornei)
+*from soil profile temperatures to choose an optimum sowing date for
 wheat* (Thompson 2015).
 
 There are two types of models described in the paper, the first model is
