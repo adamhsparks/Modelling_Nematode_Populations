@@ -1,21 +1,45 @@
 Fitting Linear and Quadratic Models of Nematode Population Responses to
 Time and Temperature
 ================
-AH Sparks and JP Thompson
+
+AH Sparks<sup>1</sup> and JP Thompson<sup>1</sup>
+
+  - <sup>1</sup> University of Southern Queensland, Centre for Crop
+    Health, West St., Toowoomba, Queensland, Australia
+
+> Thompson, JP, 2015. Modelling population densities of root-lesion
+> nematode *Pratylenchus thornei* from soil profile temperatures to
+> choose an optimum sowing date for wheat in a subtropical region.
+> *Field Crops Research* 183:50-55 DOI: 10.1016/j.fcr.2015.07.005. URL:
+> <http://www.sciencedirect.com/science/article/pii/S0378429015300083>
 
 # Introduction
 
-This document recreates the models for population densities of
-*Pratylenchus thornei* described in *Modelling population densities of
-root-lesion nematode (*P. thornei*) from soil profile temperatures to
-choose an optimum sowing date for wheat* (Thompson 2015).
+*Pratylenchus thornei*, the root-lesion nematode is widely distributed
+in wheat (*Triticum aestivum*) growing areas of many countries and is of
+particular concern in sub-tropical environments (Thompson 2015). These
+nematodes penetrate roots to feed and reproduce in the root cortex
+leading to loss of root function, which affects nutrient and water
+uptake of nutrients and water causing nutrient deficiency and water
+stress (Thompson 2015).
 
-There are two models described in the paper, the first model is a linear
-model used to describe the unplanted control and the quadratic models
-fit Gatcher (Susceptible) and GS50a (Moderately Resistant) wheat
+J Thompson modelled the population of *P. thornei* in wheat in
+Queensland, Australia using a linear and quadratic equations. The study
+aimed to investigate the effects of soil profile temperatures after
+different sowing dates on reproduction of the nematodes in susceptible
+and moderately resistant wheat cultivars in the subtropical grain region
+of eastern Australia. Thi s document recreates the models for population
+densities of *P. thornei* as described in *Modelling population
+densities of root-lesion nematode (*P. thornei*) from soil profile
+temperatures to choose an optimum sowing date for wheat* (Thompson
+2015).
+
+There are two types of models described in the paper, the first model is
+a linear model used to describe the unplanted control and two quadratic
+models fit Gatcher (Susceptible) and GS50a (Moderately Resistant) wheat
 cultivars.
 
-## R Libraries
+## Session Setup
 
 Using the *tidyverse* package simplifies the libraries. It loads,
 *readr*, used to import the data, *tidyr* used to format the data and
@@ -25,26 +49,22 @@ Using the *tidyverse* package simplifies the libraries. It loads,
 library(tidyverse)
 ```
 
-## Reproducibility
-
 We will use the `set.seed` function for reproducibility.
 
     set.seed(52)
+
+## Data Import and Inspection
 
 Import the data using `read.csv` from *readr*, which is a part of the
 *tidyverse*.
 
 ``` r
-nema <- read_csv("data/Degree Days relationships.csv")
-```
+nema <- read_csv("data/Degree Days Relationships.csv")
 
-    ## Warning: Missing column names filled in: 'X10' [10]
-
-``` r
 nema
 ```
 
-    ## # A tibble: 75 x 10
+    ## # A tibble: 36 x 9
     ##    Weeks  Days Temperature Degree_days Unplanted Gatcher GS50a Potam
     ##    <int> <int>       <dbl>       <int>     <dbl>   <dbl> <dbl> <dbl>
     ##  1     8    56        15.0         280      5.75    6.77  6.69  7.61
@@ -57,7 +77,7 @@ nema
     ##  8    10    70        20.0         700      6.16   10.3   8.91 10.3 
     ##  9    10    70        22.5         875      6.19   10.4   9.18 10.7 
     ## 10    10    70        25.0        1050      6.36   10.6   9.04 10.5 
-    ## # ... with 65 more rows, and 2 more variables: Suneca <dbl>, X10 <chr>
+    ## # ... with 26 more rows, and 1 more variable: Suneca <dbl>
 
 You can see that each of the varieties have their own column in the
 original data format (wide). Using `gather()` from the *tidyr* package
@@ -80,20 +100,20 @@ nema_long <-
 nema_long
 ```
 
-    ## # A tibble: 375 x 7
-    ##    Weeks  Days Temperature Degree_days X10   Variety   Population
-    ##    <int> <int>       <dbl>       <int> <chr> <chr>          <dbl>
-    ##  1     8    56        15.0         280 <NA>  Unplanted       5.75
-    ##  2     8    56        20.0         560 <NA>  Unplanted       5.92
-    ##  3     8    56        22.5         700 <NA>  Unplanted       6.38
-    ##  4     8    56        25.0         840 <NA>  Unplanted       6.51
-    ##  5     8    56        27.5         980 <NA>  Unplanted       6.06
-    ##  6     8    56        30.0        1120 <NA>  Unplanted       6.33
-    ##  7    10    70        15.0         350 <NA>  Unplanted       5.85
-    ##  8    10    70        20.0         700 <NA>  Unplanted       6.16
-    ##  9    10    70        22.5         875 <NA>  Unplanted       6.19
-    ## 10    10    70        25.0        1050 <NA>  Unplanted       6.36
-    ## # ... with 365 more rows
+    ## # A tibble: 180 x 6
+    ##    Weeks  Days Temperature Degree_days Variety   Population
+    ##    <int> <int>       <dbl>       <int> <chr>          <dbl>
+    ##  1     8    56        15.0         280 Unplanted       5.75
+    ##  2     8    56        20.0         560 Unplanted       5.92
+    ##  3     8    56        22.5         700 Unplanted       6.38
+    ##  4     8    56        25.0         840 Unplanted       6.51
+    ##  5     8    56        27.5         980 Unplanted       6.06
+    ##  6     8    56        30.0        1120 Unplanted       6.33
+    ##  7    10    70        15.0         350 Unplanted       5.85
+    ##  8    10    70        20.0         700 Unplanted       6.16
+    ##  9    10    70        22.5         875 Unplanted       6.19
+    ## 10    10    70        25.0        1050 Unplanted       6.36
+    ## # ... with 170 more rows
 
 Now that the data are in the format that *ggplot2* prefers, take a look
 at the data first to see what it looks like. Fit a smoothed line for
@@ -125,13 +145,9 @@ ggplot(
 
     ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 
-    ## Warning: Removed 195 rows containing non-finite values (stat_smooth).
-
-    ## Warning: Removed 195 rows containing missing values (geom_point).
-
 ![](README_files/figure-gfm/raw_data_scatterplots-1.png)<!-- -->
 
-# Fit Models
+# Model Fitting
 
 ## Unplanted Model
 
@@ -185,7 +201,6 @@ summary(unplanted_model)
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Residual standard error: 0.4742 on 34 degrees of freedom
-    ##   (39 observations deleted due to missingness)
     ## Multiple R-squared:  0.5551, Adjusted R-squared:  0.542 
     ## F-statistic: 42.43 on 1 and 34 DF,  p-value: 1.869e-07
 
@@ -215,10 +230,6 @@ nema_long %>%
                                     vjust = 0.5)) +
   ggtitle("Unplanted Linear Model")
 ```
-
-    ## Warning: Removed 39 rows containing non-finite values (stat_smooth).
-
-    ## Warning: Removed 39 rows containing missing values (geom_point).
 
 ![](README_files/figure-gfm/check_model-2.png)<!-- -->
 
@@ -272,7 +283,6 @@ summary(s_model)
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Residual standard error: 1.94 on 33 degrees of freedom
-    ##   (39 observations deleted due to missingness)
     ## Multiple R-squared:  0.2083, Adjusted R-squared:  0.1604 
     ## F-statistic: 4.342 on 2 and 33 DF,  p-value: 0.02118
 
@@ -302,10 +312,6 @@ nema_long %>%
                                     vjust = 0.5)) +
   ggtitle("Gatcher Quadratic Model")
 ```
-
-    ## Warning: Removed 39 rows containing non-finite values (stat_smooth).
-
-    ## Warning: Removed 39 rows containing missing values (geom_point).
 
 ![](README_files/figure-gfm/susceptible_model-2.png)<!-- -->
 
@@ -347,7 +353,6 @@ summary(mr_model)
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Residual standard error: 1.373 on 33 degrees of freedom
-    ##   (39 observations deleted due to missingness)
     ## Multiple R-squared:  0.2726, Adjusted R-squared:  0.2285 
     ## F-statistic: 6.184 on 2 and 33 DF,  p-value: 0.005238
 
@@ -378,22 +383,11 @@ nema_long %>%
   ggtitle("GS50a Quadratic Model")
 ```
 
-    ## Warning: Removed 39 rows containing non-finite values (stat_smooth).
-
-    ## Warning: Removed 39 rows containing missing values (geom_point).
-
 ![](README_files/figure-gfm/moderately_resistant_model-2.png)<!-- -->
 
 As in the original paper, the model equations can be derived from these
-models as well.
-
-# References
-
-> Thompson, JP, 2015. Modelling population densities of root-lesion
-> nematode *Pratylenchus thornei* from soil profile temperatures to
-> choose an optimum sowing date for wheat in a subtropical region.
-> *Field Crops Research* 183:50-55 DOI: 10.1016/j.fcr.2015.07.005. URL:
-> <http://www.sciencedirect.com/science/article/pii/S0378429015300083>
+models as
+    well.
 
 # Reproducibility
 

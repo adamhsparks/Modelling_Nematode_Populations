@@ -1,6 +1,5 @@
 ---
-title: "Fitting Linear and Quadratic Models of Nematode Populations Responses to Time and Temperature"
-author: "AH Sparks and JP Thompson"
+title: "Fitting Linear and Quadratic Models of Nematode Population Responses to Time and Temperature"
 output: github_document
 ---
 
@@ -8,18 +7,41 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+AH Sparks^1^ and JP Thompson^1^
+
+* ^1^ University of Southern Queensland, Centre for Crop Health, West St., 
+Toowoomba, Queensland, Australia
+
+> Thompson, JP, 2015. Modelling population densities of root-lesion nematode
+_Pratylenchus thornei_ from soil profile temperatures to choose an optimum
+sowing date for wheat in a subtropical region. _Field Crops Research_ 183:50-55
+DOI: 10.1016/j.fcr.2015.07.005. URL:
+<http://www.sciencedirect.com/science/article/pii/S0378429015300083>
+
 # Introduction
 
-This document recreates the models for population densities of *Pratylenchus
-thornei* described in _Modelling population densities of root-lesion nematode
+_Pratylenchus thornei_, the root-lesion nematode is widely distributed in wheat
+(_Triticum aestivum_) growing areas of many countries and is of particular
+concern in sub-tropical environments (Thompson 2015). These nematodes penetrate
+roots to  feed and reproduce in the root cortex leading to loss of root
+function, which affects nutrient and water uptake of nutrients and water causing
+nutrient deficiency and water stress (Thompson 2015).
+
+J Thompson modelled the population of _P. thornei_ in wheat in Queensland,
+Australia using a linear and quadratic equations. The study aimed to investigate
+the effects of soil profile temperatures after different sowing dates on
+reproduction of the nematodes in susceptible and moderately resistant
+wheat cultivars in the subtropical grain region of eastern Australia. Thi
+s document recreates the models for population densities of _P. thornei_
+as described in _Modelling population densities of root-lesion nematode
 (_P. thornei_) from soil profile temperatures to choose an optimum sowing date
 for wheat_ (Thompson 2015).
 
-There are two models described in the paper, the first model is a linear model
-used to describe the unplanted control and the quadratic models fit Gatcher
-(Susceptible) and GS50a (Moderately Resistant) wheat cultivars.
+There are two types of models described in the paper, the first model is a
+linear model used to describe the unplanted control and two quadratic models fit
+Gatcher (Susceptible) and GS50a (Moderately Resistant) wheat cultivars.
 
-## R Libraries
+## Session Setup
 
 Using the _tidyverse_ package simplifies the libraries. It loads, _readr_, used
 to import the data, _tidyr_ used to format the data and _ggplot2_ used for
@@ -29,19 +51,19 @@ visualising the data.
 library(tidyverse)
 ```
 
-## Reproducibility
-
 We will use the `set.seed` function for reproducibility.
 
 ```
 set.seed(52)
 ```
 
+## Data Import and Inspection
+
 Import the data using `read.csv` from _readr_, which is a part of the
 _tidyverse_.
 
 ```{r data_import, echo=TRUE, message=FALSE}
-nema <- read_csv("data/Degree Days relationships.csv")
+nema <- read_csv("data/Degree Days Relationships.csv")
 
 nema
 ```
@@ -94,7 +116,7 @@ ggplot(
                                     vjust = 0.5))
 ```
 
-# Fit Models
+# Model Fitting
 
 ## Unplanted Model
 
@@ -250,13 +272,6 @@ nema_long %>%
 
 As in the original paper, the model equations can be derived from these models
 as well.
-
-# References
-> Thompson, JP, 2015. Modelling population densities of root-lesion nematode
-_Pratylenchus thornei_ from soil profile temperatures to choose an optimum
-sowing date for wheat in a subtropical region. _Field Crops Research_ 183:50-55
-DOI: 10.1016/j.fcr.2015.07.005. URL:
-<http://www.sciencedirect.com/science/article/pii/S0378429015300083>
 
 # Reproducibility
 ```{r reproducibility, echo=FALSE}
