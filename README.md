@@ -168,7 +168,7 @@ Unplanted data from the data set for the model and fit the linear model
 to the data.
 
 Lastly we can show the unplanted data alone as a scatterplot with the
-model line fitted using `geom_smooth`.
+model line fitted using `geom_smooth()` from *ggplot2*.
 
 ``` r
 unplanted_model <- nema_long %>%
