@@ -23,16 +23,16 @@ leading to loss of root function, which affects nutrient and water
 uptake of nutrients and water causing nutrient deficiency and water
 stress (Thompson 2015).
 
-J Thompson modelled the population of *P. thornei* in wheat in
-Queensland, Australia using a linear and quadratic equations. The study
-aimed to investigate the effects of soil profile temperatures after
-different sowing dates on reproduction of the nematodes in susceptible
-and moderately resistant wheat cultivars in the subtropical grain region
-of eastern Australia. Thi s document recreates the models for population
-densities of *P. thornei* as described in *Modelling population
-densities of root-lesion nematode (*P. thornei*) from soil profile
-temperatures to choose an optimum sowing date for wheat* (Thompson
-2015).
+In the original paper the population of *P. thornei* in wheat in
+Queensland, Australia is modelled using a linear and quadratic
+equations. The study aimed to investigate the effects of soil profile
+temperatures after different sowing dates on reproduction of the
+nematodes in susceptible and moderately resistant wheat cultivars in the
+subtropical grain region of eastern Australia. Thi s document recreates
+the models for population densities of *P. thornei* as described in
+*Modelling population densities of root-lesion nematode (*P. thornei*)
+from soil profile temperatures to choose an optimum sowing date for
+wheat* (Thompson 2015).
 
 There are two types of models described in the paper, the first model is
 a linear model used to describe the unplanted control and two quadratic

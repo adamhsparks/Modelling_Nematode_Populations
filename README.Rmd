@@ -27,10 +27,10 @@ roots to  feed and reproduce in the root cortex leading to loss of root
 function, which affects nutrient and water uptake of nutrients and water causing
 nutrient deficiency and water stress (Thompson 2015).
 
-J Thompson modelled the population of _P. thornei_ in wheat in Queensland,
-Australia using a linear and quadratic equations. The study aimed to investigate
-the effects of soil profile temperatures after different sowing dates on
-reproduction of the nematodes in susceptible and moderately resistant
+In the original paper the population of _P. thornei_ in wheat in Queensland,
+Australia is modelled using a linear and quadratic equations. The study aimed to
+investigate the effects of soil profile temperatures after different sowing
+dates on reproduction of the nematodes in susceptible and moderately resistant
 wheat cultivars in the subtropical grain region of eastern Australia. Thi
 s document recreates the models for population densities of _P. thornei_
 as described in _Modelling population densities of root-lesion nematode
