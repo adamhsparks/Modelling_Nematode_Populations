@@ -1,0 +1,325 @@
+---
+title: "Fitting Linear and Quadratic Models of Nematode Population Responses to Time and Temperature"
+author:
+- name: Adam H Sparks
+  affiliation: University of Southern Queensland, Centre for Crop Health, Toowoomba, Qld, AU
+- name: John P Thompson
+  affiliation: University of Southern Queensland, Centre for Crop Health, Toowoomba, Qld, AU
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+> Thompson, JP, 2015. Modelling population densities of root-lesion nematode
+_Pratylenchus thornei_ from soil profile temperatures to choose an optimum
+sowing date for wheat in a subtropical region. _Field Crops Research_ 183:50-55
+DOI: 10.1016/j.fcr.2015.07.005. URL:
+<http://www.sciencedirect.com/science/article/pii/S0378429015300083>
+
+# Introduction
+
+_Pratylenchus thornei_, the root-lesion nematode is widely distributed in wheat
+(_Triticum aestivum_) growing areas of many countries and is of particular
+concern in sub-tropical environments (Thompson 2015). These nematodes penetrate
+roots to  feed and reproduce in the root cortex leading to loss of root
+function, which affects nutrient and water uptake of nutrients and water causing
+nutrient deficiency and water stress (Thompson 2015).
+
+In the original paper the population of _P. thornei_ in wheat in Queensland,
+Australia is modelled using a linear and quadratic equations. The study aimed to
+investigate the effects of soil profile temperatures after different sowing
+dates on reproduction of the nematodes in susceptible and moderately resistant
+wheat cultivars in the subtropical grain region of eastern Australia. This
+document recreates the models for population densities of _P. thornei_ as
+described in _Modelling population densities of root-lesion nematode_ (P.
+thornei) _from soil profile temperatures to choose an optimum sowing date for
+wheat_ (Thompson 2015).
+
+There are two types of models described in the paper, the first model is a
+linear model used to describe the unplanted control and two quadratic models fit
+Gatcher (Susceptible) and GS50a (Moderately Resistant) wheat cultivars.
+
+## Session Setup
+
+Using the **`tidyverse`** package simplifies the libraries. It includes,
+**`readr`**, used to import the data; **`tidyr`**, used to format the data;
+**`dplyr`**, used to subset the data; and **`ggplot2`**, used for visualising
+the data and models.
+
+```{r libraries_and_seed, message=FALSE}
+library(tidyverse)
+```
+
+We will use the `set.seed` function for reproducibility.
+
+```
+set.seed(52)
+```
+
+## Data Import and Inspection
+
+Import the data using `read_csv()` from **`readr`**.
+
+```{r data_import, echo=TRUE, message=FALSE}
+nema <- read_csv("data/Degree Days Relationships.csv")
+
+nema
+```
+
+### Description of Fields in the Data
+
+* **Weeks** Number of weeks after planting
+
+* **Days** Number of days after planting
+
+* **Temperature** Temperature (˚C) Treatment
+
+* **Degree_days** Degree days above 10 ˚C
+
+* **Unplanted** Log nematode population in the control treatment with no wheat
+planted
+
+* **Gatcher** Log nematode population in a susceptible wheat cultivar
+
+* **GS50a** Log nematode population moderately resistant wheat cultivar
+
+* **Potam** Log nematode population susceptible wheat cultivar
+
+* **Suneca** Log nematode population susceptible wheat cultivar
+
+### Wide to Long Data
+
+You can see that each of the varieties have their own column in the original
+data format (wide). Using `gather()` from the **`tidyr`** package, convert from
+to long format where the varieties are all listed in a single column, "Variety".
+The `data` paramter tells R which data frame to gather. The `key` parameter is
+the name of the new column to be created called "Variety", `value` specifies the
+column that will contain the values that go with the varieties, "Population".
+The last portion tells `gather()` which columns are to be gathered. Using the
+operator `:` means take the columns from "Unplanted" to "Suneca" and gather
+them without needing to type all the column names.
+
+```{r gather_data, echo=TRUE}
+nema_long <-
+  gather(data = nema,
+         key = Variety,
+         value = Population,
+         Unplanted:Suneca)
+
+nema_long
+```
+
+Now that the data are in the format that **`ggplot2`** prefers, take a look at
+the data first to see what it looks like. Fit a smoothed line for each variety's
+log nematode population to the raw data. The individual temperature treatments
+are shown here by shape, the variety by colour.
+
+```{r raw_data_scatterplots, echo=TRUE}
+ggplot(
+  nema_long,
+  aes(
+    x = Degree_days,
+    y = Population,
+    colour = Variety,
+    group = Variety
+  )
+) +
+  geom_point(aes(shape = as.factor(Temperature))) +
+  geom_smooth() +
+  ylab(expression(paste("ln(",
+                        italic("P. thornei"),
+                        "/kg soil) + 1"),
+                  sep = "")) +
+  xlab("Thermal Time (˚C Days Above 10˚C)") +
+  theme_minimal() +
+  scale_shape_discrete("Temperature") +
+  theme(axis.text.x  = element_text(angle = 90,
+                                    vjust = 0.5))
+```
+
+# Model Fitting
+
+## Unplanted Model
+
+The paper uses a linear model for the unplanted control. Here write a function
+to use in modelling the unplanted population data. I have wrapped the model
+in a function which makes it pipeable, `%>%` and has other advantages when it
+comes to fitting the same model to several sets of data.
+
+Linear models in R are fit using the `lm()` function with the form of
+
+$$y = a x + b$$
+
+In this case the rate of population growth can be represented as
+
+$$y = y_0 + rt$$
+
+
+Where $y_0$ is the initial population, $r$ is the rate of change and $t$
+equal time.
+
+### Linear Model
+
+```{r linear_model_HT, echo=TRUE}
+linear_model <- function(df) {
+  lm(Population ~ Degree_days,
+     data = df)
+}
+```
+
+Now check the model fit, using `filter()` from **`dplyr`** to select only
+Unplanted data from the data set for the model and fit the linear model to the
+data.
+
+Lastly we can show the unplanted data alone as a scatterplot with the model
+line fitted using `geom_smooth()`.
+
+```{r check_model}
+unplanted_model <- nema_long %>%
+  filter(Variety == "Unplanted") %>%
+  linear_model()
+
+par(mfrow = c(2, 2))
+plot(unplanted_model)
+
+summary(unplanted_model)
+
+nema_long %>%
+  group_by(Variety) %>%
+  filter(Variety == "Unplanted") %>%
+  ggplot(aes(
+    x = Degree_days,
+    y = Population,
+    colour = Variety,
+    group = Variety
+  )) +
+  geom_point(aes(shape = as.factor(Temperature))) +
+  geom_smooth(method = "lm",
+              formula = y ~ x,
+              size = 1) +
+  ylab(expression(paste("ln(",
+                        italic("P. thornei"),
+                        "/kg soil) + 1"),
+                  sep = "")) +
+  xlab("Thermal Time (˚C Days Above 10˚C)") +
+  theme_minimal() +
+  scale_shape_discrete("Temperature") +
+  scale_colour_discrete("Variety") +
+  theme(axis.text.x  = element_text(angle = 90,
+                                    vjust = 0.5)) +
+  ggtitle("Unplanted Linear Model")
+```
+
+## Quadratic Models
+
+In the original paper, Gatcher and GS50a best fit quadratic models, which are
+fit here.
+
+```{r HT_quadratic_models, echo=TRUE}
+quadratic_model <- function(df) {
+  lm(Population ~ Degree_days + poly(Degree_days, 2),
+      data = df)
+}
+```
+
+### Susceptible Varieties
+
+Gatcher, Potam and Suneca all have very similar curves, here Gatcher is used to
+fit a quadratic model as in the original paper following the same methods as
+above for the linear model.
+
+```{r susceptible_model, echo=TRUE}
+s_model <- nema_long %>%
+  filter(Variety == "Gatcher") %>% 
+  quadratic_model()
+
+par(mfrow = c(2, 2))
+plot(s_model)
+
+summary(s_model)
+
+nema_long %>%
+  group_by(Variety) %>%
+  filter(Variety == "Gatcher") %>%
+  ggplot(aes(
+    x = Degree_days,
+    y = Population,
+    colour = Variety,
+    group = Variety
+  )) +
+  geom_point(aes(shape = as.factor(Temperature))) +
+  geom_smooth(method = "lm",
+              formula = y ~ x + poly(x, 2),
+              size = 1) +
+  ylab(expression(paste("ln(",
+                        italic("P. thornei"),
+                        "/kg soil) + 1"),
+                  sep = "")) +
+  xlab("Thermal Time (˚C Days Above 10˚C)") +
+  theme_minimal() +
+  scale_shape_discrete("Temperature") +
+  scale_colour_discrete("Variety") +
+  theme(axis.text.x  = element_text(angle = 90,
+                                    vjust = 0.5)) +
+  ggtitle("Gatcher Quadratic Model")
+```
+
+### Moderately Resistant Cultiver
+
+GS50a, moderately resistant to _P. thornei_, also fits a quadratic model but the
+coefficients are slightly different due to different responses to the variety
+and temperature.
+
+```{r moderately_resistant_model, echo=TRUE}
+mr_model <- nema_long %>%
+  filter(Variety == "GS50a") %>%
+  quadratic_model()
+
+par(mfrow = c(2, 2))
+plot(mr_model)
+
+summary(mr_model)
+
+nema_long %>%
+  group_by(Variety) %>%
+  filter(Variety == "GS50a") %>%
+  ggplot(aes(
+    x = Degree_days,
+    y = Population,
+    colour = Variety,
+    group = Variety
+  )) +
+  geom_point(aes(shape = as.factor(Temperature))) +
+  geom_smooth(method = "lm",
+              formula = y ~ x + poly(x, 2),
+              size = 1) +
+  ylab(expression(paste("ln(",
+                        italic("P. thornei"),
+                        "/kg soil) + 1"),
+                  sep = "")) +
+  xlab("Thermal Time (˚C Days Above 10˚C)") +
+  theme_minimal() +
+  scale_shape_discrete("Temperature") +
+  scale_colour_discrete("Variety") +
+  theme(axis.text.x  = element_text(angle = 90,
+                                    vjust = 0.5)) +
+  ggtitle("GS50a Quadratic Model")
+```
+
+# Discussion and Conclusions
+
+As in the original paper, the model equations can be derived from these models
+as well. The derived regression equations are:
+
+Gatcher: $$ln(P. thornei + 1) = -0.000003(0.0000009)T^2 + 0.009(0.0019)T + 5.4671(0.904)$$
+
+GS50a: $$ln(P. thornei + 1) = -0.000002(0.0000007)T^2 + 0.0063(0.0014)T + 5.1559(0.678)$$
+
+Unplanted control: $$ln(P. thornei + 1) = 0.0013(0.00018)T + 5.4151(0.193)$$
+
+# Reproducibility
+```{r reproducibility, echo=FALSE}
+devtools::session_info()
+```
