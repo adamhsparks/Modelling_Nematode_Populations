@@ -37,11 +37,18 @@ described in _Modelling population densities of root-lesion nematode_ (P.
 thornei) _from soil profile temperatures to choose an optimum sowing date for
 wheat_ (Thompson 2015).
 
+# Objectives
+
 There are two types of models described in the paper, the first model is a
 linear model used to describe the unplanted control and two quadratic models fit
 Gatcher (Susceptible) and GS50a (Moderately Resistant) wheat cultivars.
 
-## Session Setup
+This post will illustrate how to fit the original linear and quadratic models
+using the original data in R.
+
+# Session Setup
+
+## Libraries and Other Frontmatter
 
 Using the **`tidyverse`** package simplifies the libraries. It includes,
 **`readr`**, used to import the data; **`tidyr`**, used to format the data;
