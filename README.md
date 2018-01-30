@@ -79,6 +79,30 @@ nema
     ## 10    12    84        20.0         840      6.98   11.7   9.85 11.3 
     ## # ... with 14 more rows, and 1 more variable: Suneca <dbl>
 
+### Description of Fields in the Data
+
+  - **Weeks** Number of weeks after planting
+
+  - **Days** Number of days after planting
+
+  - **Temperature** Temperature (˚C) Treatment
+
+  - **Degree\_days** Degree days above 10 ˚C
+
+  - **Unplanted** Log nematode population in the control treatment with
+    no wheat planted
+
+  - **Gatcher** Log nematode population in a susceptible wheat cultivar
+
+  - **GS50a** Log nematode population moderately resistant wheat
+    cultivar
+
+  - **Potam** Log nematode population susceptible wheat cultivar
+
+  - **Suneca** Log nematode population susceptible wheat cultivar
+
+### Wide to Long Data
+
 You can see that each of the varieties have their own column in the
 original data format (wide). Using `gather()` from the *tidyr* package
 (part of the *tidyverse*), convert from to long format where the
@@ -87,8 +111,9 @@ paramter tells R which data frame to gather. The `key` parameter is the
 name of the new column to be created called “Variety”, `value` specifies
 the column that will contain the values that go with the varieties,
 “Population”. The last portion tells `gather()` which columns are to
-be gathered. Using the “:” means take the columns from “Unplanted” to
-“Suneca” and gather them without needing to type all the column names.
+be gathered. Using the operator `:` means take the columns from
+“Unplanted” to “Suneca” and gather them without needing to type all
+the column names.
 
 ``` r
 nema_long <-
