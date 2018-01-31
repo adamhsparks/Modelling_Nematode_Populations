@@ -1,5 +1,4 @@
-Fitting Linear and Quadratic Models of Nematode Population Responses to
-Time and Temperature
+Modelling Root Lesion Nematode Population Densities
 ================
 
 This repository contains the Rmd file for the “Fitting Linear and
