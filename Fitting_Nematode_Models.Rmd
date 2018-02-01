@@ -18,6 +18,8 @@ sowing date for wheat in a subtropical region. _Field Crops Research_ 183:50-55
 DOI: 10.1016/j.fcr.2015.07.005. URL:
 <http://www.sciencedirect.com/science/article/pii/S0378429015300083>
 
+[![DOI](https://zenodo.org/badge/119438897.svg)](https://zenodo.org/badge/latestdoi/119438897)
+
 # Introduction
 
 _Pratylenchus thornei_, the root-lesion nematode, is widely distributed in wheat
@@ -365,6 +367,7 @@ DOI: 10.1016/j.fcr.2015.07.005. URL:
 <http://www.sciencedirect.com/science/article/pii/S0378429015300083>
 
 # Reproducibility
+
 ```{r reproducibility, echo=FALSE}
 devtools::session_info()
 ```
