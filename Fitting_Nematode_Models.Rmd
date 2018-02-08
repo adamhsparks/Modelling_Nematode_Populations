@@ -33,7 +33,7 @@ susceptible and moderately resistant wheat cultivars in the subtropical grain
 region of eastern Australia. This document recreates the models for population
 densities of _P. thornei_ as described in the original paper.
 
-# Objectives
+## Objectives
 
 There are two types of models described in the paper, the first model is a
 linear model used to describe the unplanted control and two quadratic models fit
@@ -48,9 +48,7 @@ should refer to Faraway [-@FARAWAY2002].
 This post will illustrate how to fit the original linear and quadratic models
 using the original data in R [@R2017].
 
-# Session Setup
-
-## Libraries and Other Frontmatter
+# Packages
 
 Using the **`tidyverse`**, [-@TIDYVERSE2017] package simplifies the libraries.
 It includes, **`readr`** [-@READR2017], used to import the data; **`tidyr`**
@@ -68,7 +66,7 @@ We will use the `set.seed()` function for reproducibility.
 set.seed(52)
 ```
 
-## Data Import and Inspection
+# Data Wrangling
 
 Import the data using `read_csv()` from **`readr`**.
 
@@ -122,6 +120,8 @@ nema_long <-
 nema_long
 ```
 
+# Data Visulalisation
+
 Now that the data are in the format that **`ggplot2`** uses, take a look at
 the data first to see what it looks like. Fit a smoothed line for each variety's
 log nematode population to the raw data. The individual temperature treatments
@@ -150,7 +150,7 @@ ggplot(
                                     vjust = 0.5))
 ```
 
-# Model Fitting
+# Modelling
 
 ## Unplanted Model
 
@@ -350,6 +350,8 @@ Unplanted Control: $$ln(P. thornei + 1) = 0.0013(0.00018)T + 5.4151(0.193)$$
 See the `summary()` outputs for each of the models for the coefficient values
 and $R^2$ values, which match those reported in the original paper where the
 models were fit with Genstat.
+
+# Recommended Reading
 
 # Reproducibility
 
