@@ -6,17 +6,13 @@ author:
 - name: John P Thompson
   affiliation: University of Southern Queensland, Centre for Crop Health, Toowoomba, Qld, AU
 output: html_document
+bibliography: bibliography.bib
+csl: phytopathology.csl
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-> Thompson, JP, 2015. Modelling population densities of root-lesion nematode
-_Pratylenchus thornei_ from soil profile temperatures to choose an optimum
-sowing date for wheat in a subtropical region. _Field Crops Research_ 183:50-55
-DOI: 10.1016/j.fcr.2015.07.005. URL:
-<http://www.sciencedirect.com/science/article/pii/S0378429015300083>
 
 [![DOI](https://zenodo.org/badge/119438897.svg)](https://zenodo.org/badge/latestdoi/119438897)
 
@@ -24,10 +20,10 @@ DOI: 10.1016/j.fcr.2015.07.005. URL:
 
 _Pratylenchus thornei_, the root-lesion nematode, is widely distributed in wheat
 (_Triticum aestivum_) growing areas of many countries and is of particular
-concern in sub-tropical environments (Thompson 2015). These nematodes penetrate
+concern in sub-tropical environments [@THOMPSON2015]. These nematodes penetrate
 roots to  feed and reproduce in the root cortex leading to loss of root
 function, which affects nutrient and water uptake of nutrients and water causing
-nutrient deficiency and water stress (Thompson 2015).
+nutrient deficiency and water stress [@THOMPSON2015].
 
 In the original paper the population response of _P. thornei_ in Queensland,
 Australia wheat to temperature is modelled using a linear and quadratic
@@ -35,8 +31,7 @@ equations. The study aimed to investigate the effects of soil profile
 temperatures after different sowing dates on reproduction of the nematodes in
 susceptible and moderately resistant wheat cultivars in the subtropical grain
 region of eastern Australia. This document recreates the models for population
-densities of _P. thornei_ as described in the original paper by J. Thompson
-(2015).
+densities of _P. thornei_ as described in the original paper.
 
 # Objectives
 
@@ -48,19 +43,20 @@ more detailed discussion on fitting plant disease models in R, please see the
 in R" documents available in the American Phytopathological Society's (APS)
 Education Center. For an even more in-depth discussion on linear models in R,
 how to fit and how to interpret the diagnostics that R provides the reader
-should refer to Faraway (2002).
+should refer to Faraway [-@FARAWAY2002].
 
 This post will illustrate how to fit the original linear and quadratic models
-using the original data in R.
+using the original data in R [@R2017].
 
 # Session Setup
 
 ## Libraries and Other Frontmatter
 
-Using the **`tidyverse`** package simplifies the libraries. It includes,
-**`readr`**, used to import the data; **`tidyr`**, used to format the data;
-**`dplyr`**, used to subset the data; and **`ggplot2`**, used for visualising
-the data and models.
+Using the **`tidyverse`**, [-@TIDYVERSE2017] package simplifies the libraries.
+It includes, **`readr`** [-@READR2017], used to import the data; **`tidyr`**
+[-@TIDYR2018], used to format the data; **`dplyr`** [-@DPLYR2017], used to
+subset the data; and **`ggplot2`** [-@GGPLOT22009], used for visualising the
+data and models.
 
 ```{r libraries_and_seed, message=FALSE}
 library(tidyverse)
@@ -355,19 +351,10 @@ See the `summary()` outputs for each of the models for the coefficient values
 and $R^2$ values, which match those reported in the original paper where the
 models were fit with Genstat.
 
-# References
-
-Faraway, JJ. 2002. Practical regression and ANOVA using R. University of Bath
-104, 108-109. URL: <https://cran.r-project.org/doc/contrib/Faraway-PRA.pdf>
-
-Thompson, JP. 2015. Modelling population densities of root-lesion nematode
-_Pratylenchus thornei_ from soil profile temperatures to choose an optimum
-sowing date for wheat in a subtropical region. _Field Crops Research_ 183:50-55
-DOI: 10.1016/j.fcr.2015.07.005. URL:
-<http://www.sciencedirect.com/science/article/pii/S0378429015300083>
-
 # Reproducibility
 
 ```{r reproducibility, echo=FALSE}
 devtools::session_info()
 ```
+
+# References
