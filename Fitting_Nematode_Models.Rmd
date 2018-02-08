@@ -1,5 +1,5 @@
 ---
-title: "Modelling Root Lesion Nematode Population Densities in R"
+title: "Linear modelling of soil temperature effects on root lesion nematode population densities in R"
 author:
 - name: Adam H Sparks
   affiliation: University of Southern Queensland, Centre for Crop Health, Toowoomba, Qld, AU
