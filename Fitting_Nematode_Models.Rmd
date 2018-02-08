@@ -100,7 +100,7 @@ data format (wide). Using `gather()` from the **`tidyr`** package, convert from
 to long format where the varieties are all listed in a single column, "Variety".
 The `data` parameter tells R which data frame to gather. The `key` parameter is
 the name of the new column to be created called "Variety", `value` specifies the
-column that will contain the values that go with the varieties, "Population".
+column that will contain the values that go with the varieties, "Log_pop".
 The last portion tells `gather()` which columns are to be gathered. Using the
 operator `:` means take the columns from "Unplanted" to "Suneca" and gather
 them without needing to type all the column names.
@@ -109,7 +109,7 @@ them without needing to type all the column names.
 nema_long <-
   gather(data = nema,
          key = Variety,
-         value = Population,
+         value = Log_pop,
          Unplanted:Suneca)
 
 nema_long
@@ -127,7 +127,7 @@ ggplot(
   nema_long,
   aes(
     x = Degree_days,
-    y = Population,
+    y = Log_pop,
     colour = Variety,
     group = Variety
   )
@@ -167,7 +167,7 @@ equal time.
 
 ```{r linear_model, echo=TRUE}
 linear_model <- function(df) {
-  lm(Population ~ Degree_days,
+  lm(Log_pop ~ Degree_days,
      data = df)
 }
 ```
@@ -201,7 +201,7 @@ nema_long %>%
   filter(Variety == "Unplanted") %>%
   ggplot(aes(
     x = Degree_days,
-    y = Population,
+    y = Log_pop,
     colour = Variety,
     group = Variety
   )) +
@@ -229,7 +229,7 @@ fit here.
 
 ```{r quadratic_models, echo=TRUE}
 quadratic_model <- function(df) {
-  lm(Population ~ Degree_days + I(Degree_days^2),
+  lm(Log_pop ~ Degree_days + I(Degree_days^2),
       data = df)
 }
 ```
@@ -263,7 +263,7 @@ nema_long %>%
   filter(Variety == "Gatcher") %>%
   ggplot(aes(
     x = Degree_days,
-    y = Population,
+    y = Log_pop,
     colour = Variety,
     group = Variety
   )) +
@@ -310,7 +310,7 @@ nema_long %>%
   filter(Variety == "GS50a") %>%
   ggplot(aes(
     x = Degree_days,
-    y = Population,
+    y = Log_pop,
     colour = Variety,
     group = Variety
   )) +
