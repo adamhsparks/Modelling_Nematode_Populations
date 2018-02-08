@@ -97,21 +97,16 @@ planted
 ### Wide to Long Data
 
 You can see that each of the varieties have their own column in the original
-data format (wide). Using `gather()` from the **`tidyr`** package, convert from
-to long format where the varieties are all listed in a single column, "Variety".
-The `data` parameter tells R which data frame to gather. The `key` parameter is
-the name of the new column to be created called "Variety", `value` specifies the
-column that will contain the values that go with the varieties, "Log_pop".
-The last portion tells `gather()` which columns are to be gathered. Using the
-operator `:` means take the columns from "Unplanted" to "Suneca" and gather
-them without needing to type all the column names.
+data format (wide). Using `gather()` from the **`tidyr`** package to convert
+from to long format where the varieties are all listed in a single column,
+"Variety". For a more in-depth look at **`tidyr`** see:
+
+- [Introducing tidyr](https://blog.rstudio.com/2014/07/22/introducing-tidyr/)
+
+- [Gather columns into key-value pairs](http://tidyr.tidyverse.org/reference/gather.html).
 
 ```{r gather_data, echo=TRUE}
-nema_long <-
-  gather(data = nema,
-         key = Variety,
-         value = Log_pop,
-         Unplanted:Suneca)
+nema_long <- nema %>% gather(Variety, Log_population, Unplanted:Suneca)
 
 nema_long
 ```
