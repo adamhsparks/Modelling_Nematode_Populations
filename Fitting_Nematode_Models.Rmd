@@ -53,8 +53,9 @@ using the original data in R [@R2017].
 Using the **`tidyverse`**, [-@TIDYVERSE2017] package simplifies the libraries.
 It includes, **`readr`** [-@READR2017], used to import the data; **`tidyr`**
 [-@TIDYR2018], used to format the data; **`dplyr`** [-@DPLYR2017], used to
-subset the data; and **`ggplot2`** [-@GGPLOT22009], used for visualising the
-data and models.
+subset the data; **`ggplot2`** [-@GGPLOT22009], used for visualising the
+data and model fits; and **`broom`** [-@BROOM2017] for tidying the output of
+models.
 
 ```{r libraries_and_seed, message=FALSE}
 library(tidyverse)
@@ -180,6 +181,8 @@ data. Using `par(mfrow = c(2, 2))` sets up a four-panel graph,
 a more detailed look at how to interpret these graphs, please refer to Faraway
 (2002).
 
+Using `glance()` from **`broom`** inspect the model summary.
+
 ```{r check_model}
 unplanted_model <- nema_long %>%
   filter(Variety == "Unplanted") %>%
@@ -188,7 +191,8 @@ unplanted_model <- nema_long %>%
 par(mfrow = c(2, 2))
 plot(unplanted_model)
 
-summary(unplanted_model)
+library(broom)
+glance(unplanted_model)
 ```
 
 #### Visualising the Model Fit to the Data
@@ -248,7 +252,7 @@ s_model <- nema_long %>%
 par(mfrow = c(2, 2))
 plot(s_model)
 
-summary(s_model)
+glance(s_model)
 ```
 
 #### Visualise Susceptible Variety Model
@@ -298,7 +302,7 @@ mr_model <- nema_long %>%
 par(mfrow = c(2, 2))
 plot(mr_model)
 
-summary(mr_model)
+glance(mr_model)
 ```
 
 #### Visualising the Model Fit to the Data
