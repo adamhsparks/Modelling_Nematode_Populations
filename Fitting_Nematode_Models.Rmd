@@ -75,20 +75,38 @@ nema
 ### Description of Fields in the Data
 
 ```{r table, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
-tabl <- 
-"| Field       | Description  |
-|-------------|---------------|
-| Weeks       | Number of weeks after wheat sowing |
-| Days        | Number of days after wheat sowing  |
-| Temperature | Temperature (˚C) treatment         |
-| Degree Days | Average thermal time degree days above 10 ˚C for four soil depths (8, 15, 30 and 60 cm) |
-| Unplanted   | Log nematode population in the control treatment with no wheat planted |
-| Gatcher     | Log nematode population in a susceptible wheat cultivar |
-| GS50a       | Log nematode population in a moderately resistant wheat cultivar |
-| Potam       | Log nematode population in a susceptible wheat cultivar |
-| Suneca      | Log nematode population in a susceptible wheat cultivar |
-|             |                                                         |"
-cat(tabl) # output the table
+library(kableExtra)
+library(knitr)
+options(knitr.table.format = "html")
+fields <- data.frame(
+  c("Weeks",
+    "Days",
+    "Temperature",
+    "Degree Days",
+    "Unplanted",
+    "Gatcher",
+    "GS50a",
+    "Potam",
+    "Suneca"),
+  c("Number of weeks after wheat sowing",
+    "Number of days after wheat sowing",
+    "Temperature (˚C) treatment",
+    "Average thermal time degree days above 10 ˚C for four soil depths
+    (8, 15, 30 and 60 cm)",
+    "Log nematode population in the control treatment with no wheat planted",
+    "Log nematode population in a susceptible wheat cultivar",
+    "Log nematode population in a moderately resistant wheat cultivar",
+    "Log nematode population in a susceptible wheat cultivar",
+    "Log nematode population in a susceptible wheat cultivar"))
+
+names(fields) <- c("Field", "Data Description")
+
+fields %>% 
+    kable("html") %>%
+    kable_styling(bootstrap_options = c("striped",
+                                        "hover",
+                                        "condensed",
+                                        "responsive"))
 ```
 
 ### Wide to Long Data
