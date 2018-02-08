@@ -60,12 +60,6 @@ data and models.
 library(tidyverse)
 ```
 
-We will use the `set.seed()` function for reproducibility.
-
-```
-set.seed(52)
-```
-
 # Data Wrangling
 
 Import the data using `read_csv()` from **`readr`**.
