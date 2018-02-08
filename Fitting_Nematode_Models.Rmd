@@ -74,25 +74,22 @@ nema
 
 ### Description of Fields in the Data
 
-* **Weeks** Number of weeks after wheat sowing
-
-* **Days** Number of days after wheat sowing
-
-* **Temperature** Temperature (˚C) treatment
-
-* **Degree_days** Average thermal time degree days above 10 ˚C for four soil
-depths (8, 15, 30 and 60 cm)
-
-* **Unplanted** Log nematode population in the control treatment with no wheat
-planted
-
-* **Gatcher** Log nematode population in a susceptible wheat cultivar
-
-* **GS50a** Log nematode population moderately resistant wheat cultivar
-
-* **Potam** Log nematode population susceptible wheat cultivar
-
-* **Suneca** Log nematode population susceptible wheat cultivar
+```{r table, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+tabl <- 
+"| Field       | Description  |
+|-------------|---------------|
+| Weeks       | Number of weeks after wheat sowing |
+| Days        | Number of days after wheat sowing  |
+| Temperature | Temperature (˚C) treatment         |
+| Degree Days | Average thermal time degree days above 10 ˚C for four soil depths (8, 15, 30 and 60 cm) |
+| Unplanted   | Log nematode population in the control treatment with no wheat planted |
+| Gatcher     | Log nematode population in a susceptible wheat cultivar |
+| GS50a       | Log nematode population in a moderately resistant wheat cultivar |
+| Potam       | Log nematode population in a susceptible wheat cultivar |
+| Suneca      | Log nematode population in a susceptible wheat cultivar |
+|             |                                                         |"
+cat(tabl) # output the table
+```
 
 ### Wide to Long Data
 
@@ -106,7 +103,7 @@ from to long format where the varieties are all listed in a single column,
 - [Gather columns into key-value pairs](http://tidyr.tidyverse.org/reference/gather.html).
 
 ```{r gather_data, echo=TRUE}
-nema_long <- nema %>% gather(Variety, Log_population, Unplanted:Suneca)
+nema_long <- nema %>% gather(Variety, Log_pop, Unplanted:Suneca)
 
 nema_long
 ```
