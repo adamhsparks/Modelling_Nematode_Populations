@@ -224,8 +224,8 @@ nema_long %>%
 
 ## Quadratic Models
 
-In the original paper, Gatcher and GS50a best fit quadratic models, which are
-fit here.
+In the original paper, original paper, the quadratic model best described
+Gatcher and GS50a data, which are fit here.
 
 ```{r quadratic_models, echo=TRUE}
 quadratic_model <- function(df) {
