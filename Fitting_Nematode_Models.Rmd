@@ -55,9 +55,8 @@ used in this work. It is a collection of packages designed to work together for
 data science, <https://www.tidyverse.org/>. The **`tidyverse`** includes, 
 **`readr`** [-@READR2017], used to import the data; **`tidyr`**
 [-@TIDYR2018], used to format the data; **`dplyr`** [-@DPLYR2017], used to
-subset the data; **`ggplot2`** [-@GGPLOT22009], used for visualising the
-data and model fits; and **`broom`** [-@BROOM2017] for tidying the output of
-models in the R session.
+subset the data; and **`ggplot2`** [-@GGPLOT22009], used for visualising the
+data and model fits.
 
 ```{r libraries_and_seed, message=FALSE}
 library(tidyverse)
@@ -138,7 +137,7 @@ nema_long <- nema %>% gather(Variety, Log_pop, Unplanted:Suneca)
 nema_long
 ```
 
-# Data Visulalisation
+# Data Visualisation
 
 Now that the data are in the format that **`ggplot2`** uses, take a look at
 the data first to see what it looks like. Fit a smoothed line for each variety's
@@ -197,24 +196,38 @@ linear_model <- function(df) {
 
 Now check the model fit, using `filter()` from **`dplyr`** to select only
 Unplanted data from the data set for the model and fit the linear model to the
-data. Using `par(mfrow = c(2, 2))` sets up a four-panel graph,
-`plot(unplanted_model)` will graph the diagnostic plots for your inspection. For
-a more detailed look at how to interpret these graphs, please refer to Faraway
-(2002).
-
-Using `glance()` from **`broom`** inspect the model summary.
+data.
 
 ```{r check_model}
 unplanted_model <- nema_long %>%
   filter(Variety == "Unplanted") %>%
   linear_model()
+```
 
+Using `par(mfrow = c(2, 2))` creates a four-panel graph rather than four
+individual graphs, which the next function will create by default.
+
+Using the `plot()` function with any `lm()` object will create four diagnostic
+plots for your inspection. For a more detailed look at how to interpret these
+graphs, please refer to Faraway [-@FARAWAY2002].
+
+```{r plot_model}
 par(mfrow = c(2, 2))
 plot(unplanted_model)
-
-library(broom)
-glance(unplanted_model)
 ```
+
+Using the `summary()` function displays information about the model fit. For
+an excellent, detailed look at how to interpret the output from `summary()`, see
+The YHAT Blog post,
+[http://blog.yhat.com/posts/r-lm-summary.html](http://blog.yhat.com/posts/r-lm-summary.html).
+
+```{r summary}
+summary(unplanted_model)
+```
+
+From the original paper, the $R^2$ value of the unplanted linear model was
+$0.70$, we can see here that agrees: $0.6964$. In the original paper,
+$P < 0.001$, R reports $p-value: 4.006e-07$, which also agrees.
 
 #### Visualising the Model Fit to the Data
 
@@ -273,7 +286,7 @@ s_model <- nema_long %>%
 par(mfrow = c(2, 2))
 plot(s_model)
 
-glance(s_model)
+summary(s_model)
 ```
 
 #### Visualise Susceptible Variety Model
@@ -323,7 +336,7 @@ mr_model <- nema_long %>%
 par(mfrow = c(2, 2))
 plot(mr_model)
 
-glance(mr_model)
+summary(mr_model)
 ```
 
 #### Visualising the Model Fit to the Data
