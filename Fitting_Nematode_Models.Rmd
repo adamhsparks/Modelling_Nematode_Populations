@@ -68,7 +68,7 @@ Import the data using `read_csv()` function from **`readr`**. The data are
 located in the `data` subfolder.
 
 ```{r data_import, echo=TRUE, message=FALSE}
-nema <- read_csv("data/Degree Days Relationships.csv")
+nema <- read_csv("data/Nematode_Data.csv")
 
 nema
 ```
