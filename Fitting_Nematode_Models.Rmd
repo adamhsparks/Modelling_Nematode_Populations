@@ -114,9 +114,19 @@ fields %>%
 ### Wide to Long Data
 
 You can see that each of the varieties have their own column in the original
-data format (wide). Using `gather()` from the **`tidyr`** package to convert
-from to long format where the varieties are all listed in a single column,
-"Variety". For a more in-depth look at **`tidyr`** see:
+data format, this is commonly called wide data. Wide data are commonly found in
+spreadsheets but do not lend themselves easily to data analysis, modelling and
+visualisation. To make it easier to do these things it is common to convert the
+data from wide to long format, commonly referred to as tidying, when using R.
+The advantage of a tidy dataset is that it is easy to manipulate, model and
+visualize, and always has a specific structure where each variable is a column,
+each observation is a row, and each type of observational unit is a table
+[@TIDY-DATA2014].
+
+In order to use **`ggplot2`** for visualising the data, they need to be
+converted from wide to long. Using `gather()` from the **`tidyr`** package to
+convert from wide to long format where the varieties are all listed in a single
+column, "Variety". For a more in-depth look at using **`tidyr`** see:
 
 - [Introducing tidyr](https://blog.rstudio.com/2014/07/22/introducing-tidyr/)
 
