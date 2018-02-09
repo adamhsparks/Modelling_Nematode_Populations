@@ -50,12 +50,14 @@ using the original data in R [@R2017].
 
 # Packages
 
-Using the **`tidyverse`**, [-@TIDYVERSE2017] package simplifies the libraries.
-It includes, **`readr`** [-@READR2017], used to import the data; **`tidyr`**
+Using the **`tidyverse`**, [-@TIDYVERSE2017] package simplifies the libraries
+used in this work. It is a collection of packages designed to work together for
+data science, <https://www.tidyverse.org/>. The **`tidyverse`** includes, 
+**`readr`** [-@READR2017], used to import the data; **`tidyr`**
 [-@TIDYR2018], used to format the data; **`dplyr`** [-@DPLYR2017], used to
 subset the data; **`ggplot2`** [-@GGPLOT22009], used for visualising the
 data and model fits; and **`broom`** [-@BROOM2017] for tidying the output of
-models.
+models in the R session.
 
 ```{r libraries_and_seed, message=FALSE}
 library(tidyverse)
@@ -63,8 +65,8 @@ library(tidyverse)
 
 # Data Wrangling
 
-Import the data using `read_csv()` from **`readr`**. The data are located in the
-`data` subfolder.
+Import the data using `read_csv()` function from **`readr`**. The data are
+located in the `data` subfolder.
 
 ```{r data_import, echo=TRUE, message=FALSE}
 nema <- read_csv("data/Degree Days Relationships.csv")
@@ -170,7 +172,6 @@ In the linear equation for the Unplanted control treatment, the rate of
 population increase can be expressed as:
 
 $$y = y_0 + rt$$
-
 
 Where $y_0$ is the initial population, $r$ is the rate of change and $t$
 equal time.
