@@ -232,7 +232,7 @@ $P < 0.001$, R reports $p-value: 4.006e-07$, which also agrees.
 #### Visualising the Model Fit to the Data
 
 Using **`ggplot2`**'s `geom_smooth()` we can fit the same model above and graph
-the resulting line and standard error.
+the resulting line.
 
 ```{r visualise_linear}
 nema_long %>%
