@@ -172,10 +172,10 @@ ggplot(
 
 ## Unplanted Model
 
-The paper uses a linear model for the unplanted control. Here write a function
-to use in modelling the unplanted population data. I have wrapped the model
-in a function which makes it pipe-able, `%>%` and has other advantages when it
-comes to fitting the same model to several sets of data.
+The paper uses a linear model for the unplanted control. Here we will write a
+function to use in modelling the unplanted population data. I have wrapped the
+model in a function which makes it pipe-able, `%>%` and has other advantages
+when it comes to fitting the same model to several sets of data.
 
 In the linear equation for the Unplanted control treatment, the rate of
 population increase can be expressed as:
@@ -382,7 +382,53 @@ See the `summary()` outputs for each of the models for the coefficient values
 and $R^2$ values, which match those reported in the original paper where the
 models were fit with Genstat.
 
-# Recommended Reading
+# Further Reading
+
+## Using AIC to Compare Model Quality
+
+Even though the original paper used a linear model for the unplanted data, a
+polynomial model also fits these data quite well. We can compare the original
+linear model from the paper with a polynomial model quite easily in R to see how
+the models compare.
+
+Since the `unplanted_model` object already exists as a prodcut of the linear model, we simply need to use the polynomial model with the unplanted data to create a new object to compare them.
+
+```{r unplanted_poly}
+unplanted_poly_model <- nema_long %>%
+  filter(Variety == "Unplanted") %>% 
+  quadratic_model()
+
+par(mfrow = c(2, 2))
+plot(unplanted_poly_model)
+
+summary(unplanted_poly_model)
+```
+
+By this information, the $R^2$ value is a bit better from the
+`unplanted_poly_model`, `r {summary(unplanted_poly_model)$r.squared}`, than from
+the original `unplanted_model`, `r {summary(unplanted_model)$r.squared}`. We can
+use the AIC (Akaike information criterion) to get a better feel for the models'
+fit to these data. That is, AIC can be used to determine the relative quality of
+a model for a _given set of data_, but you cannot compare models for other data
+using AIC.
+
+Checking the AIC is quite simple in R, just `AIC()`. Here we check the AIC of
+the original linear `unplanted_model` and the new `unplanted_poly_model`.
+
+```{r AIC}
+AIC(unplanted_model)
+AIC(unplanted_poly_model)
+```
+
+Ideally when fitting models, you look for the least complex model that provides
+the best explanation of the variation in the data. In this case the original
+linear model has a lower AIC, `AIC(unplanted_model)` than that of the polynomial
+model, `r {AIC(unplanted_poly_model)}`, but they are extremely close and the 
+$R^2$ value of the polynomial model,
+`r {summary(unplanted_poly_model)$r.squared}`, is a bit better than the linear
+model's $R^2$, `r {summary(unplanted_model)$r.squared}`, as well.
+Therefore, without more data to distinguish the models it appears that either
+model suffices for the data provided.
 
 # Reproducibility
 
