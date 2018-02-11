@@ -175,7 +175,8 @@ ggplot(nema_long,
 ggplot(nema_long,
        aes(sample = exp(Log_pop) - 1)) +
   stat_qq() +
-  facet_wrap(~ Variety) +
+  facet_wrap(~ Variety,
+             ncol = 2) +
   theme_minimal()
 ```
 
@@ -212,7 +213,8 @@ ggplot(nema_long,
 ggplot(nema_long,
        aes(sample = Log_pop)) +
   stat_qq() +
-  facet_wrap(~ Variety) +
+  facet_wrap(~ Variety,
+             ncol = 2) +
   theme_minimal()
 ```
 
