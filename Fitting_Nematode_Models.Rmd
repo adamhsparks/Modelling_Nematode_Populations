@@ -140,9 +140,77 @@ nema_long
 # Data Visualisation
 
 Now that the data are in the format that **`ggplot2`** uses, take a look at
-the data first to see what it looks like. Fit a smoothed line for each variety's
-log nematode population to the raw data. The individual temperature treatments
-are shown here by shape, the variety by colour.
+the data first to see what it looks like.
+
+First, plot the data for each of the four temperatures and the four varieties,
+plus the unplanted control converting from the natural log value back to the
+original actual count values to see what the population numbers look like. Note
+the use of `exp() - 1` in the `y` aesthetic, to transform the values from the
+`ln() + 1` values. Doing this shows us the original data's values and helps
+demonstrate why the data were log transformed for analysis. To examine the data,
+first we will use boxplots and then quantile-quantile (qq) plots.
+
+```{r boxplots_original}
+ggplot(nema_long,
+       aes(x = Variety, 
+           y = exp(Log_pop) - 1)) +
+  geom_boxplot(outlier.color = NA) +
+  geom_jitter(width = 0.1,
+              alpha = 0.5) +
+  ylab(expression(paste("exp(ln(",
+                        italic("P. thornei"),
+                        "/kg soil) + 1)"),
+                  sep = "")) +
+  facet_wrap( ~ Temperature) +
+  theme_minimal()
+```
+
+```{r qq_original}
+ggplot(nema_long,
+       aes(sample = exp(Log_pop) - 1)) +
+  stat_qq() +
+  facet_wrap(~ Variety) +
+  theme_minimal()
+```
+
+The boxplots show that there is a wide range of values with the 25 ˚C
+temperature populations close to zero with others having quite large ranges,
+this could indicate heteroscedasticity.
+
+Also, looking at the qq-plots it is apparent that the original data do not meet
+the assumptions of normally distributed errors for a linear model. See the
+Further Reading section for suggested reading on interpreting qq-plots.
+
+```{r boxplots_ln}
+ggplot(nema_long,
+       aes(x = Variety, 
+           y = Log_pop)) +
+  geom_boxplot(outlier.color = NA) +
+  geom_jitter(width = 0.1,
+              alpha = 0.5) +
+  ylab(expression(paste("exp(ln(",
+                        italic("P. thornei"),
+                        "/kg soil) + 1)"),
+                  sep = "")) +
+  facet_wrap( ~ Temperature) +
+  theme_minimal()
+```
+
+```{r qq_ln}
+ggplot(nema_long,
+       aes(sample = Log_pop)) +
+  stat_qq() +
+  facet_wrap(~ Variety) +
+  theme_minimal()
+```
+
+Here we see that the `ln()` transformed data's boxplots show fewer outliers and
+tighter range of values. The qq-plots also indicate that it is possible to
+conduct a linear regression with these data.
+
+Next, using the `ln()` transformed data, we will fit a smoothed line for each
+variety's nematode population to the raw data. The individual temperature
+treatments are shown here by shape, the variety by colour.
 
 ```{r raw_data_scatterplots, echo=TRUE}
 ggplot(
