@@ -152,16 +152,22 @@ first we will use boxplots and then quantile-quantile (qq) plots.
 
 ```{r boxplots_original}
 ggplot(nema_long,
-       aes(x = Variety, 
-           y = exp(Log_pop) - 1)) +
-  geom_boxplot(outlier.color = NA) +
+       aes(x = Temperature, 
+           y = exp(Log_pop) - 1,
+           group = Temperature,
+           colour = Temperature)) +
+  geom_boxplot(colour = "grey",
+               outlier.color = NA) +
   geom_jitter(width = 0.1,
-              alpha = 0.5) +
+              alpha = 0.6) +
   ylab(expression(paste("exp(ln(",
                         italic("P. thornei"),
                         "/kg soil) + 1)"),
                   sep = "")) +
-  facet_wrap( ~ Temperature) +
+  facet_wrap( ~ Variety,
+              ncol = 2) +
+  scale_colour_viridis_c("Temperature") +
+  ggtitle("Untransformed Data") +
   theme_minimal()
 ```
 
@@ -183,16 +189,22 @@ Further Reading section for suggested reading on interpreting qq-plots.
 
 ```{r boxplots_ln}
 ggplot(nema_long,
-       aes(x = Variety, 
-           y = Log_pop)) +
-  geom_boxplot(outlier.color = NA) +
+       aes(x = Temperature, 
+           y = Log_pop,
+           group = Temperature,
+           colour = Temperature)) +
+  geom_boxplot(colour = "grey",
+               outlier.color = NA) +
   geom_jitter(width = 0.1,
-              alpha = 0.5) +
+              alpha = 0.6) +
   ylab(expression(paste("exp(ln(",
                         italic("P. thornei"),
                         "/kg soil) + 1)"),
                   sep = "")) +
-  facet_wrap( ~ Temperature) +
+  facet_wrap( ~ Variety,
+              ncol = 2) +
+  scale_colour_viridis_c("Temperature") +
+  ggtitle("Log Transformed Data") +
   theme_minimal()
 ```
 
