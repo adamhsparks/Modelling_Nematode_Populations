@@ -464,7 +464,7 @@ See the `summary()` outputs for each of the models for the coefficient values
 and $R^2$ values, which match those reported in the original paper where the
 models were fit with Genstat.
 
-# Further Reading
+## Bonus Material
 
 ## Using AIC to Compare Model Quality
 
@@ -543,6 +543,8 @@ and the $R^2$ value of the polynomial model,
 model's $R^2$, `r {summary(unplanted_model)$r.squared}`, as well.
 Therefore, without more data to distinguish the models it appears that either
 model suffices for the data provided.
+
+# Further Reading
 
 # Reproducibility
 
