@@ -12,6 +12,7 @@ csl: phytopathology.csl
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+loadNamespace("printr")
 ```
 
 [![DOI](https://zenodo.org/badge/119438897.svg)](https://zenodo.org/badge/latestdoi/119438897)
@@ -56,16 +57,30 @@ data science, <https://www.tidyverse.org/>. The **`tidyverse`** includes,
 **`readr`** [-@READR2017], used to import the data; **`tidyr`**
 [-@TIDYR2018], used to format the data; **`dplyr`** [-@DPLYR2017], used to
 subset the data; and **`ggplot2`** [-@GGPLOT22009], used for visualising the
-data and model fits.
+data and model fits. **`viridis`** [-@VIRIDIS2018] is a selection of colour
+pallets that are widely accessible for people with colour-blindness and printing
+in black and white.
+
+The following code chunk checks first to see if you have **`tidyverse`** and
+**`viridis`** installed, if not, it will automatically install them and then
+load them.
 
 ```{r libraries_and_seed, message=FALSE}
-library(tidyverse)
+if (!require(tidyverse)) {
+  install.packages("tidyverse", c(CRAN = "http://cran.rstudio.com"))
+  library(tidyverse)
+}
+
+if (!require(viridis)) {
+  install.packages("viridis", c(CRAN = "http://cran.rstudio.com"))
+  library(viridis)
+}
 ```
 
 # Data Wrangling
 
-Import the data using `read_csv()` function from **`readr`**. The data are
-located in the `data` subfolder.
+The data are located in the `data` sub-folder. Import the data using
+`read_csv()` function from **`readr`**  and view them.
 
 ```{r data_import, echo=TRUE, message=FALSE}
 nema <- read_csv("data/Nematode_Data.csv")
@@ -75,15 +90,24 @@ nema
 
 ### Description of Fields in the Data
 
+There are nine columns in the `nema` data described here in the following table.
+
 ```{r table, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
-library(kableExtra)
-library(knitr)
+if (!require(knitr)) {
+  install.packages("knitr", c(CRAN = "http://cran.rstudio.com"))
+  library(knitr)
+}
+if (!require(kableExtra)) {
+  install.packages("kableExtra", c(CRAN = "http://cran.rstudio.com"))
+  library(kableExtra)
+}
+
 options(knitr.table.format = "html")
 fields <- data.frame(
   c("Weeks",
     "Days",
     "Temperature",
-    "Degree Days",
+    "Degree_Days",
     "Unplanted",
     "Gatcher",
     "GS50a",
@@ -94,20 +118,31 @@ fields <- data.frame(
     "Temperature (˚C) treatment",
     "Average thermal time degree days above 10 ˚C for four soil depths
     (8, 15, 30 and 60 cm)",
-    "Log nematode population in the control treatment with no wheat planted",
-    "Log nematode population in a susceptible wheat cultivar",
-    "Log nematode population in a moderately resistant wheat cultivar",
-    "Log nematode population in a susceptible wheat cultivar",
-    "Log nematode population in a susceptible wheat cultivar"))
+    paste0("Log", footnote_marker_symbol(1), ", `log()`, nematode population in
+    the control treatment with no wheat planted"),
+    paste0("Log", footnote_marker_symbol(1), ", `log()`, nematode population in a
+    susceptible wheat cultivar"),
+    paste0("Log", footnote_marker_symbol(1), ", `log()`, nematode population in a
+    moderately resistant wheat cultivar"),
+    paste0("Log", footnote_marker_symbol(1), ", `log()`, nematode population in a
+    susceptible wheat cultivar"),
+    paste0("Log", footnote_marker_symbol(1), ", `log()`, nematode population in a
+    susceptible wheat cultivar")))
 
 names(fields) <- c("Field", "Data Description")
 
-fields %>% 
-    kable("html") %>%
-    kable_styling(bootstrap_options = c("striped",
-                                        "hover",
-                                        "condensed",
-                                        "responsive"))
+fields %>%
+  kable("html", escape = F) %>%
+  kable_styling(bootstrap_options = c("striped",
+                                      "hover",
+                                      "condensed",
+                                      "responsive")) %>%
+  footnote(
+    symbol = "For an exploration into the reasons why the data were transformed
+              using the natural log `log()`, see the
+              [Exploring Why the Data Were Log Transformed] in the
+              [Bonus Material] section"
+  )
 ```
 
 ### Wide to Long Data
@@ -125,104 +160,18 @@ each observation is a row, and each type of observational unit is a table
 In order to use **`ggplot2`** for visualising the data, they need to be
 converted from wide to long. Using `gather()` from the **`tidyr`** package to
 convert from wide to long format where the varieties are all listed in a single
-column, "Variety". For a more in-depth look at using **`tidyr`** see:
-
-- [Introducing tidyr](https://blog.rstudio.com/2014/07/22/introducing-tidyr/)
-
-- [Gather columns into key-value pairs](http://tidyr.tidyverse.org/reference/gather.html).
+column, "Variety".
 
 ```{r gather_data, echo=TRUE}
 nema_long <- nema %>% gather(Variety, Log_pop, Unplanted:Suneca)
 
-nema_long
+head(nema_long)
 ```
 
 # Data Visualisation
 
 Now that the data are in the format that **`ggplot2`** uses, take a look at
-the data first to see what it looks like.
-
-First, plot the data for each of the four temperatures and the four varieties,
-plus the unplanted control converting from the natural log value back to the
-original actual count values to see what the population numbers look like. Note
-the use of `exp() - 1` in the `y` aesthetic, to transform the values from the
-`ln() + 1` values. Doing this shows us the original data's values and helps
-demonstrate why the data were log transformed for analysis. To examine the data,
-first we will use boxplots and then quantile-quantile (qq) plots.
-
-```{r boxplots_original}
-ggplot(nema_long,
-       aes(x = Temperature, 
-           y = exp(Log_pop) - 1,
-           group = Temperature,
-           colour = Temperature)) +
-  geom_boxplot(colour = "grey",
-               outlier.color = NA) +
-  geom_jitter(width = 0.1,
-              alpha = 0.6) +
-  ylab(expression(paste("exp(ln(",
-                        italic("P. thornei"),
-                        "/kg soil) + 1)"),
-                  sep = "")) +
-  facet_wrap( ~ Variety,
-              ncol = 2) +
-  scale_colour_viridis_c("Temperature") +
-  ggtitle("Untransformed Data") +
-  theme_minimal()
-```
-
-```{r qq_original}
-ggplot(nema_long,
-       aes(sample = exp(Log_pop) - 1)) +
-  stat_qq() +
-  facet_wrap(~ Variety,
-             ncol = 2) +
-  theme_minimal()
-```
-
-The boxplots show that there is a wide range of values with the 25 ˚C
-temperature populations close to zero with others having quite large ranges,
-this could indicate heteroscedasticity.
-
-Also, looking at the qq-plots it is apparent that the original data do not meet
-the assumptions of normally distributed errors for a linear model. See the
-Further Reading section for suggested reading on interpreting qq-plots.
-
-```{r boxplots_ln}
-ggplot(nema_long,
-       aes(x = Temperature, 
-           y = Log_pop,
-           group = Temperature,
-           colour = Temperature)) +
-  geom_boxplot(colour = "grey",
-               outlier.color = NA) +
-  geom_jitter(width = 0.1,
-              alpha = 0.6) +
-  ylab(expression(paste("exp(ln(",
-                        italic("P. thornei"),
-                        "/kg soil) + 1)"),
-                  sep = "")) +
-  facet_wrap( ~ Variety,
-              ncol = 2) +
-  scale_colour_viridis_c("Temperature") +
-  ggtitle("Log Transformed Data") +
-  theme_minimal()
-```
-
-```{r qq_ln}
-ggplot(nema_long,
-       aes(sample = Log_pop)) +
-  stat_qq() +
-  facet_wrap(~ Variety,
-             ncol = 2) +
-  theme_minimal()
-```
-
-Here we see that the `ln()` transformed data's boxplots show fewer outliers and
-tighter range of values. The qq-plots also indicate that it is possible to
-conduct a linear regression with these data.
-
-Next, using the `ln()` transformed data, we will fit a smoothed line for each
+the data first to see what it looks like. Here we fit a smoothed line for each
 variety's nematode population to the raw data. The individual temperature
 treatments are shown here by shape, the variety by colour.
 
@@ -246,7 +195,7 @@ ggplot(
                   sep = "")) +
   xlab("Thermal Time (˚C Days Above 10˚C)") +
   theme_minimal() +
-  scale_colour_viridis_c("Temperature") +
+  scale_colour_viridis("Temperature") +
   facet_wrap( ~ Variety, ncol = 2)
 ```
 
@@ -290,26 +239,32 @@ Using `par(mfrow = c(2, 2))` creates a four-panel graph rather than four
 individual graphs, which the next function will create by default.
 
 Using the `plot()` function with any `lm()` object will create four diagnostic
-plots for your inspection. For a more detailed look at how to interpret these
-graphs, please refer to Faraway [-@FARAWAY2002].
+plots for your inspection.
 
 ```{r plot_model}
 par(mfrow = c(2, 2))
 plot(unplanted_model)
 ```
 
-Using the `summary()` function displays information about the model fit. For
-an excellent, detailed look at how to interpret the output from `summary()`, see
-The YHAT Blog post,
-[http://blog.yhat.com/posts/r-lm-summary.html](http://blog.yhat.com/posts/r-lm-summary.html).
+These plots do not appear to indicate anything amiss as one would hope for from
+the models that have already been published. If you are unfamiliar with how to
+interpret these diagnostic plots see [Interpreting Linear Models in R] in the
+[Further Reading] section.
+
+Using the `summary()` function displays information about the model fit. If you
+are unfamiliar with how to read and interpret the output of `summary()` for a
+linear model, please refer to [Interpreting Linear Models in R] in the
+[Further Reading] section for references that go into more detail on this matter.
 
 ```{r summary}
 summary(unplanted_model)
 ```
 
 From the original paper, the $R^2$ value of the unplanted linear model was
-$0.70$, we can see here that agrees: $0.6964$. In the original paper,
-$P < 0.001$, R reports $p-value: 4.006e-07$, which also agrees.
+0.7, we can see here that agrees:
+`r {round(summary(unplanted_model)$r.squared, 2)}`. In the original paper,
+$P$ < 0.001, R reports $p-value:$ 
+`r {summary(unplanted_model)$coefficients[2, 4]}`, which also agrees.
 
 #### Visualising the Model Fit to the Data
 
@@ -338,7 +293,7 @@ nema_long %>%
                   sep = "")) +
   xlab("Thermal Time (˚C Days Above 10˚C)") +
   theme_minimal() +
-  scale_colour_viridis_c("Temperature") +
+  scale_colour_viridis("Temperature") +
   ggtitle("Unplanted Linear Model")
 ```
 
@@ -371,6 +326,11 @@ plot(s_model)
 summary(s_model)
 ```
 
+From the original paper, the $R^2$ value of Gatcher's quadratic model was 0.80,
+we can see here that agrees: `r {round(summary(s_model)$r.squared, 2)}`. In the
+original paper, $P$ < 0.001, R reports $p-value:$
+`r {summary(s_model)$coefficients[2, 4]}`, which also agrees.
+
 #### Visualise Susceptible Variety Model
 
 The model visualisation is the same for the quadratic models as the linear
@@ -399,10 +359,9 @@ nema_long %>%
                   sep = "")) +
   xlab("Thermal Time (˚C Days Above 10˚C)") +
   theme_minimal() +
-  scale_colour_viridis_c("Temperature") +
+  scale_colour_viridis("Temperature") +
   ggtitle("Gatcher Quadratic Model")
 ```
-
 
 ### Moderately Resistant Cultiver
 
@@ -420,6 +379,11 @@ plot(mr_model)
 
 summary(mr_model)
 ```
+
+From the original paper, the $R^2$ value of GS50a's quadratic model was 0.82,
+we can see here that agrees: `r {round(summary(mr_model)$r.squared, 2)}`. In the
+original paper, $P$ < 0.001, R reports $p-value:$
+`r {summary(mr_model)$coefficients[2, 4]}`, which also agrees.
 
 #### Visualising the Model Fit to the Data
 
@@ -445,7 +409,7 @@ nema_long %>%
                   sep = "")) +
   xlab("Thermal Time (˚C Days Above 10˚C)") +
   theme_minimal() +
-  scale_colour_viridis_c("Temperature") +
+  scale_colour_viridis("Temperature") +
   ggtitle("GS50a Quadratic Model")
 ```
 
@@ -454,17 +418,123 @@ nema_long %>%
 As in the original paper, the model equations can be derived from these models
 as well. The derived regression equations are:
 
-Gatcher (Susceptible): $$ln(P. thornei + 1) = -0.000003(0.0000009)T^2 + 0.009(0.0019)T + 5.4671(0.904)$$
+Gatcher (Susceptible):
+$$ln(P. thornei + 1) = -0.000003(0.0000009)T^2 + 0.009(0.0019)T + 5.4671(0.904)$$
 
-GS50a (Moderately Resistant): $$ln(P. thornei + 1) = -0.000002(0.0000007)T^2 + 0.0063(0.0014)T + 5.1559(0.678)$$
+GS50a (Moderately Resistant):
+$$ln(P. thornei + 1) = -0.000002(0.0000007)T^2 + 0.0063(0.0014)T + 5.1559(0.678)$$
 
 Unplanted Control: $$ln(P. thornei + 1) = 0.0013(0.00018)T + 5.4151(0.193)$$
 
-See the `summary()` outputs for each of the models for the coefficient values
-and $R^2$ values, which match those reported in the original paper where the
-models were fit with Genstat.
+Refer back to the `summary()` outputs for each of the models for the coefficient
+values and $R^2$ values, which match those reported in the original paper where
+the models were fit with Genstat.
+
+Gatcher and GS50a have similar phenologies, but differ in resistance to root
+lesion nematodes, making the model comparisons a reasonable objective. The
+original paper goes on to test the effect of sowing date based on degree days.
+[@THOMPSON2015] reported a 61% increase in yield on average from sowing Gatcher,
+the susceptible, intolerant cultivar Gatcher at the end of May than sowing it
+in the third week of June. By June the soil temperatures and nematode
+populations were both greater, leading to lower wheat yield. The effects were
+less pronounced in the moderately resistant cultivar, GS50a, but were similar
+with a reduction occurring due to earlier planting.
+
+The models illustrated here for Gatcher and GS50a were able accurately reflect
+the changes in nematode population as a result of degree days, which affected
+the nematodes' ability to damage the crop and reduce yield [@THOMPSON2015].
 
 # Bonus Material
+
+## Exploring Why the Data Were Log Transformed
+
+In the paper the the natural log, `ln() +1`, of the nematode population counts
+were used to fit the models. Here we will explore a bit further why this was
+necessary.
+
+_A note about using `log() + 1` rather than just `log()`. This is necessary with
+these data to avoid taking `log(0)`. Try it in R to see what happens if you are
+not familiar._
+
+First, plot the data for each of the four temperatures and the four varieties,
+plus the unplanted control converting from the natural log value back to the
+original actual count values to see what the population numbers look like. Note
+the use of `exp() - 1` in the `y` aesthetic, to transform the values from the
+`ln() + 1` values. Doing this shows us the original data's values and helps
+demonstrate why the data were log transformed for analysis. To examine the data,
+first we will use boxplots and then quantile-quantile (qq) plots.
+
+```{r boxplots_original}
+ggplot(nema_long,
+       aes(x = Temperature, 
+           y = exp(Log_pop) - 1,
+           group = Temperature,
+           colour = Temperature)) +
+  geom_boxplot(colour = "grey",
+               outlier.color = NA) +
+  geom_jitter(width = 0.1,
+              alpha = 0.6) +
+  ylab(expression(paste("exp(ln(",
+                        italic("P. thornei"),
+                        "/kg soil) + 1)"),
+                  sep = "")) +
+  facet_wrap( ~ Variety,
+              ncol = 2) +
+  scale_colour_viridis("Temperature") +
+  ggtitle("Untransformed Data") +
+  theme_minimal()
+```
+
+```{r qq_original}
+ggplot(nema_long,
+       aes(sample = exp(Log_pop) - 1)) +
+  stat_qq() +
+  facet_wrap(~ Variety,
+             ncol = 2) +
+  theme_minimal()
+```
+
+The boxplots show that there is a wide range of values with the 25 ˚C
+temperature populations close to zero with others having quite large ranges,
+this could indicate heteroscedasticity.
+
+Also, looking at the qq-plots it is apparent that the original data do not meet
+the assumptions of normally distributed errors for a linear model. See the
+[Further Reading] section for suggested reading on interpreting qq-plots.
+
+```{r boxplots_ln}
+ggplot(nema_long,
+       aes(x = Temperature, 
+           y = Log_pop,
+           group = Temperature,
+           colour = Temperature)) +
+  geom_boxplot(colour = "grey",
+               outlier.color = NA) +
+  geom_jitter(width = 0.1,
+              alpha = 0.6) +
+  ylab(expression(paste("exp(ln(",
+                        italic("P. thornei"),
+                        "/kg soil) + 1)"),
+                  sep = "")) +
+  facet_wrap( ~ Variety,
+              ncol = 2) +
+  scale_colour_viridis("Temperature") +
+  ggtitle("Log Transformed Data") +
+  theme_minimal()
+```
+
+```{r qq_ln}
+ggplot(nema_long,
+       aes(sample = Log_pop)) +
+  stat_qq() +
+  facet_wrap(~ Variety,
+             ncol = 2) +
+  theme_minimal()
+```
+
+Here we see that the `log()` transformed data's boxplots show fewer outliers and
+tighter range of values. The qq-plots also indicate that it is possible to
+conduct a linear regression with these data.
 
 ## Using AIC to Compare Model Quality
 
@@ -474,7 +544,7 @@ linear model from the paper with a polynomial model quite easily in R to see how
 the models compare using AIC (Akaike information criterion). AIC is used to
 measure the models' relative quality to each other.
 
-Since the `unplanted_model` object already exists as a prodcut of the linear
+Since the `unplanted_model` object already exists as a product of the linear
 model, we simply need to use the polynomial model with the unplanted data to
 create a new object to compare them.
 
@@ -517,7 +587,7 @@ nema_long %>%
                   sep = "")) +
   xlab("Thermal Time (˚C Days Above 10˚C)") +
   theme_minimal() +
-  scale_colour_viridis_c("Temperature") +
+  scale_colour_viridis("Temperature") +
   ggtitle("Unplanted Quadratic Model")
 ```
 
@@ -545,6 +615,55 @@ Therefore, without more data to distinguish the models it appears that either
 model suffices for the data provided.
 
 # Further Reading
+
+## Tidy Data
+
+Wickham [-@TIDY-DATA2014] introduced the idea of tidy data for analysis. As you
+work with raw data from many sources, it is useful to understand what this means
+and why it is useful. In this example, **`tidyr`** was used to convert the data
+from wide to long format. For a more in-depth look at using **`tidyr`** see:
+
+- [Introducing tidyr](https://blog.rstudio.com/2014/07/22/introducing-tidyr/)
+
+- [Gather columns into key-value pairs](http://tidyr.tidyverse.org/reference/gather.html).
+
+## Interpreting Linear Models in R
+
+The University of Georgia has a nice, easy to understand set of materials that
+demonstrate how to interpret diagnostic plot outputs from `plot(lm.object)`,
+[Regression diagnostic plots](http://strata.uga.edu/8370/rtips/regressionPlots.html)
+on their Data Analysis in the Geosciences page. For even more, this
+Cross Validated question has an excellent discussion on
+[Interpreting plot.lm()](https://stats.stackexchange.com/questions/58141/interpreting-plot-lm).
+
+The University of Montana provides an on-line text, "_Statistics With R_", that
+includes a section on [ANOVA model diagnostics including QQ-plots](https://arc.lib.montana.edu/book/statistics-with-r-textbook/item/57).
+Since ANOVA uses `lm()` in R, the tools and descriptions here are applicable to
+the qq-plots we have generated here in this illustration.
+
+For a detailed look at how to interpret the output from `summary()` for linear
+models, see The YHAT Blog post,
+[Fitting & Interpreting Linear Models in R](http://blog.yhat.com/posts/r-lm-summary.html).
+
+Faraway [-@FARAWAY2002],
+"[_Practical Regression and Anova using R_](https://cran.r-project.org/doc/contrib/Faraway-PRA.pdf)"
+is an excellent free resource that goes into detail about fitting linear models
+using R and how to interpret the diagnostics. Prof. Faraway has more recent
+books on the subject as well that you might wish to borrow from your library or
+purchase, see
+[http://www.maths.bath.ac.uk/~jjf23/LMR/](http://www.maths.bath.ac.uk/~jjf23/LMR/)
+for more details.
+
+## Selecting the Right Colour Scheme
+
+Selecting good colour schemes is essential for communicating your message.
+The **`viridis`** package makes this much easier to do. Bob Rudis has a nice
+blog post when the package was first introduced that demonstrates why it is
+useful to use a package like this for your colour palettes,
+[Using the new ‘viridis’ colormap in R (thanks to Simon Garnier)](https://rud.is/b/2015/07/20/using-the-new-viridis-colormap-in-r-thanks-to-simon-garnier/). Other colour palettes for R exist as well. Notably the
+**`RColorBrewer`** package provides an easy-to-use interface for the fantastic
+Colour Brewer palettes [http://colorbrewer2.org/](http://colorbrewer2.org/)
+commonly used for cartography but also useful for graphs.
 
 # Reproducibility
 
