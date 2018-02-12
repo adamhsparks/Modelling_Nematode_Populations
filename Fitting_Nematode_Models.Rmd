@@ -13,8 +13,8 @@ csl: phytopathology.csl
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(c(echo = TRUE))
 if (!require(printr)) {
-  install.packages("printr", c(CRAN = "https://cloud.r-project.org/"))
-  library(printr)
+  install.packages("printr", repos = c(CRAN = "https://cloud.r-project.org/"))
+  namespace("printr")
 }
 ```
 
