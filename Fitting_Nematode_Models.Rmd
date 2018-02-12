@@ -13,7 +13,7 @@ csl: phytopathology.csl
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(c(echo = TRUE))
 if (!require(printr)) {
-  install.packages("printr", c(CRAN = "http://cran.rstudio.com"))
+  install.packages("printr", c(CRAN = "https://cloud.r-project.org/"))
   library(printr)
 }
 ```
@@ -70,12 +70,14 @@ load them.
 
 ```{r libraries_and_seed, message=FALSE}
 if (!require(tidyverse)) {
-  install.packages("tidyverse", c(CRAN = "http://cran.rstudio.com"))
+  install.packages("tidyverse",
+                   repos = c(CRAN = "https://cloud.r-project.org/"))
   library(tidyverse)
 }
 
 if (!require(viridis)) {
-  install.packages("viridis", c(CRAN = "http://cran.rstudio.com"))
+  install.packages("viridis",
+                   repos = c(CRAN = "https://cloud.r-project.org/"))
   library(viridis)
 }
 ```
@@ -97,11 +99,13 @@ There are nine columns in the `nema` data described here in the following table.
 
 ```{r table, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
 if (!require(knitr)) {
-  install.packages("knitr", c(CRAN = "http://cran.rstudio.com"))
+  install.packages("knitr",
+                   repos = c(CRAN = "https://cloud.r-project.org/"))
   library(knitr)
 }
 if (!require(kableExtra)) {
-  install.packages("kableExtra", c(CRAN = "http://cran.rstudio.com"))
+  install.packages("kableExtra", 
+                   repos = c(CRAN = "https://cloud.r-project.org/"))
   library(kableExtra)
 }
 
