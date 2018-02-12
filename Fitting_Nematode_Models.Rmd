@@ -173,6 +173,9 @@ head(nema_long)
 nrow(nema_long)
 ```
 
+As we see, the original `nema` data had only 24 rows and the long format of the
+data have 120 rows now.
+
 # Data Visualisation
 
 Now that the data are in the format that **`ggplot2`** uses, take a look at
