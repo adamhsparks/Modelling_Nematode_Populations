@@ -140,8 +140,8 @@ fields %>%
   footnote(
     symbol = "For an exploration into the reasons why the data were transformed
               using the natural log `log()`, see the
-              [Bonus Material](#Exploring-Why-the-Data-Were-Log-Transformed)
-              section"
+              [Exploring Why the Data Were Log Transformed] in the
+              [Bonus Material] section"
   )
 ```
 
@@ -248,14 +248,13 @@ plot(unplanted_model)
 
 These plots do not appear to indicate anything amiss as one would hope for from
 the models that have already been published. If you are unfamiliar with how to
-interpret these diagnostic plots see the
-[Further Reading](Interpreting-Linear-Models-in-R) section.
+interpret these diagnostic plots see [Interpreting Linear Models in R] in the
+[Further Reading] section.
 
 Using the `summary()` function displays information about the model fit. If you
 are unfamiliar with how to read and interpret the output of `summary()` for a
-linear model, please refer to the
-[Further Reading](#Interpreting-Linear-Models-in-R) section for references that
-go into more detail on this matter.
+linear model, please refer to [Interpreting Linear Models in R] in the
+[Further Reading] section for references that go into more detail on this matter.
 
 ```{r summary}
 summary(unplanted_model)
@@ -501,8 +500,7 @@ this could indicate heteroscedasticity.
 
 Also, looking at the qq-plots it is apparent that the original data do not meet
 the assumptions of normally distributed errors for a linear model. See the
-[Further Reading](#Further Reading) section for suggested reading on
-interpreting qq-plots.
+[Further Reading] section for suggested reading on interpreting qq-plots.
 
 ```{r boxplots_ln}
 ggplot(nema_long,
