@@ -11,8 +11,11 @@ csl: phytopathology.csl
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-loadNamespace("printr")
+knitr::opts_chunk$set(c(echo = TRUE))
+if (!require(printr)) {
+  install.packages("printr", c(CRAN = "http://cran.rstudio.com"))
+  library(printr)
+}
 ```
 
 [![DOI](https://zenodo.org/badge/119438897.svg)](https://zenodo.org/badge/latestdoi/119438897)
@@ -175,7 +178,7 @@ the data first to see what it looks like. Here we fit a smoothed line for each
 variety's nematode population to the raw data. The individual temperature
 treatments are shown here by shape, the variety by colour.
 
-```{r raw_data_scatterplots, echo=TRUE}
+```{r raw_data_scatterplots, echo=TRUE, message=FALSE}
 ggplot(
   nema_long,
   aes(
