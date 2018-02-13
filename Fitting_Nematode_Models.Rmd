@@ -5,17 +5,15 @@ author:
   affiliation: University of Southern Queensland, Centre for Crop Health, Toowoomba, Qld, AU
 - name: John P Thompson
   affiliation: University of Southern Queensland, Centre for Crop Health, Toowoomba, Qld, AU
-output: html_document
+output:
+  html_document:
+    df_print: paged
 bibliography: bibliography.bib
 csl: phytopathology.csl
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(c(echo = TRUE))
-if (!require(printr)) {
-  install.packages("printr", repos = c(CRAN = "https://cloud.r-project.org/"))
-  library(printr)
-}
 ```
 
 [![DOI](https://zenodo.org/badge/119438897.svg)](https://zenodo.org/badge/latestdoi/119438897)
@@ -168,7 +166,7 @@ column, `Variety`.
 ```{r gather_data, echo=TRUE}
 nema_long <- nema %>% gather(Variety, Log_pop, Unplanted:Suneca)
 
-head(nema_long)
+nema_long
 
 nrow(nema_long)
 ```
