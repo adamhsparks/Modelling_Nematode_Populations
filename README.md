@@ -9,5 +9,6 @@ Temperature”, which is posted to Open Plant Pathology as a teaching note
 on XX/02/2018.
 
 The [Fitting\_Nematode\_Models.Rmd](Fitting_Nematode_Models.Rmd) file
-contains the markdown, which was reviewed by @emdelponte and @mladencucak to 
-generate the content of the blog post.
+contains the markdown, which was reviewed by [@emdelponte] and [@mladencucak]
+to generate the content of the blog post. The review can be found here:
+[https://github.com/openplantpathology/contributions/issues/1]
