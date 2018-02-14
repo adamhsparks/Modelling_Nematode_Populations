@@ -439,16 +439,18 @@ the models were fit with Genstat.
 Gatcher and GS50a have similar phenologies, but differ in resistance to root
 lesion nematodes, making the model comparisons a reasonable objective. The
 original paper goes on to test the effect of sowing date based on degree days.
-[@THOMPSON2015] reported a 61% increase in yield on average from sowing Gatcher,
+[@THOMPSON2015] reported a 61% increase in yield on average from sowing
 the susceptible, intolerant cultivar Gatcher at the end of May than sowing it
 in the third week of June. By June the soil temperatures and nematode
 populations were both greater, leading to lower wheat yield. The effects were
 less pronounced in the moderately resistant cultivar, GS50a, but were similar
-with a reduction occurring due to earlier planting.
+with a reduction in nematode population densities occurring due to earlier
+planting.
 
-The models illustrated here for Gatcher and GS50a were able accurately reflect
-the changes in nematode population as a result of degree days, which affected
-the nematodes' ability to damage the crop and reduce yield [@THOMPSON2015].
+The models illustrated here for Gatcher and GS50a were able to accurately
+reflect the changes in nematode population as a result of degree days, which
+affected the nematodes' ability to damage the crop and reduce yield
+[@THOMPSON2015].
 
 # Bonus Material
 
