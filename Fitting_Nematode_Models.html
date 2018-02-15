@@ -2,7 +2,8 @@
 <script src="Fitting_Nematode_Models_files/pagedtable-1.1/js/pagedtable.js"></script>
 
 
-<p><a href="https://zenodo.org/badge/latestdoi/119438897"><img src="https://zenodo.org/badge/119438897.svg" alt="DOI" /></a></p>
+<p><a href="https://zenodo.org/badge/latestdoi/119438897"><img src="https://zenodo.org/badge/119438897.svg" alt="DOI" /></a>
+<a href="https://github.com/openplantpathology/contributions/issues/1"><img src="https://img.shields.io/badge/OPP-Peer%20Reviewed-brightgreen.svg" /></a></p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p><em>Pratylenchus thornei</em>, the root-lesion nematode, is widely distributed in wheat
@@ -235,7 +236,7 @@ treatments are shown here by shape, the variety by colour.</p>
   theme_minimal() +
   scale_colour_viridis(&quot;Temperature&quot;) +
   facet_wrap( ~ Variety, ncol = 2)</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/raw_data_scatterplots-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/raw_data_scatterplots-1.png" width="672" /></p>
 </div>
 <div id="modelling" class="section level1">
 <h1>Modelling</h1>
@@ -268,7 +269,7 @@ individual graphs, which the next function will create by default.</p>
 plots for your inspection.</p>
 <pre class="r"><code>par(mfrow = c(2, 2))
 plot(unplanted_model)</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/plot_model-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/plot_model-1.png" width="672" /></p>
 <p>These plots do not appear to indicate anything amiss as one would hope for from
 the models that have already been published. If you are unfamiliar with how to
 interpret these diagnostic plots see <a href="#interpreting-linear-models-in-r">Interpreting Linear Models in R</a> in the
@@ -328,7 +329,7 @@ the resulting line.</p>
   theme_minimal() +
   scale_colour_viridis(&quot;Temperature&quot;) +
   ggtitle(&quot;Unplanted Linear Model&quot;)</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/visualise_linear-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/visualise_linear-1.png" width="672" /></p>
 </div>
 </div>
 </div>
@@ -351,7 +352,7 @@ above for the linear model.</p>
 
 par(mfrow = c(2, 2))
 plot(s_model)</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/susceptible_model-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/susceptible_model-1.png" width="672" /></p>
 <pre class="r"><code>summary(s_model)</code></pre>
 <pre><code>## 
 ## Call:
@@ -404,7 +405,7 @@ temperatures.</p>
   theme_minimal() +
   scale_colour_viridis(&quot;Temperature&quot;) +
   ggtitle(&quot;Gatcher Quadratic Model&quot;)</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/visualise_s_model-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/visualise_s_model-1.png" width="672" /></p>
 </div>
 </div>
 <div id="moderately-resistant-cultiver" class="section level3">
@@ -418,7 +419,7 @@ and temperature.</p>
 
 par(mfrow = c(2, 2))
 plot(mr_model)</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/moderately_resistant_model-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/moderately_resistant_model-1.png" width="672" /></p>
 <pre class="r"><code>summary(mr_model)</code></pre>
 <pre><code>## 
 ## Call:
@@ -468,7 +469,7 @@ original paper, <span class="math inline">\(P\)</span> &lt; 0.001, R reports <sp
   theme_minimal() +
   scale_colour_viridis(&quot;Temperature&quot;) +
   ggtitle(&quot;GS50a Quadratic Model&quot;)</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/visualise_mr_model-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/visualise_mr_model-1.png" width="672" /></p>
 </div>
 </div>
 </div>
@@ -535,14 +536,14 @@ first we will use boxplots and then quantile-quantile (qq) plots.</p>
   scale_colour_viridis(&quot;Temperature&quot;) +
   ggtitle(&quot;Untransformed Data&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/boxplots_original-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/boxplots_original-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(nema_long,
        aes(sample = exp(Log_pop) - 1)) +
   stat_qq() +
   facet_wrap(~ Variety,
              ncol = 2) +
   theme_minimal()</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/qq_original-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/qq_original-1.png" width="672" /></p>
 <p>The boxplots show that there is a wide range of values with the 25 ˚C
 temperature populations close to zero with others having quite large ranges,
 this could indicate heteroscedasticity.</p>
@@ -567,14 +568,14 @@ the assumptions of normally distributed errors for a linear model. See the
   scale_colour_viridis(&quot;Temperature&quot;) +
   ggtitle(&quot;Log Transformed Data&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/boxplots_ln-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/boxplots_ln-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(nema_long,
        aes(sample = Log_pop)) +
   stat_qq() +
   facet_wrap(~ Variety,
              ncol = 2) +
   theme_minimal()</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/qq_ln-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/qq_ln-1.png" width="672" /></p>
 <p>Here we see that the <code>log()</code> transformed data’s boxplots show fewer outliers and
 tighter range of values. The qq-plots also indicate that it is possible to
 conduct a linear regression with these data.</p>
@@ -595,7 +596,7 @@ create a new object to compare them.</p>
 
 par(mfrow = c(2, 2))
 plot(unplanted_poly_model)</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/unplanted_poly-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/unplanted_poly-1.png" width="672" /></p>
 <pre class="r"><code>summary(unplanted_poly_model)</code></pre>
 <pre><code>## 
 ## Call:
@@ -644,7 +645,7 @@ Using the same code from above it is easy to visualise the new model’s fit usi
   theme_minimal() +
   scale_colour_viridis(&quot;Temperature&quot;) +
   ggtitle(&quot;Unplanted Quadratic Model&quot;)</code></pre>
-<p><img src="Fitting_Nematode_Models_files/figure-html4/visualise_unplanted_poly_model-1.png" width="672" /></p>
+<p><img src="Fitting_Nematode_Models_files/figure-html/visualise_unplanted_poly_model-1.png" width="672" /></p>
 <p>Checking the model fit visually, we can see that it fits the data nicely. To get
 a better feel for how these models compare, AIC can be used to determine the
 relative quality of a model for a <em>given set of data</em>. That is, you cannot
@@ -720,91 +721,92 @@ commonly used for cartography but also useful for graphs.</p>
 <pre><code>## Session info -------------------------------------------------------------</code></pre>
 <pre><code>##  setting  value                       
 ##  version  R version 3.4.3 (2017-11-30)
-##  system   x86_64, darwin16.7.0        
+##  system   x86_64, darwin17.3.0        
 ##  ui       unknown                     
 ##  language (EN)                        
 ##  collate  en_AU.UTF-8                 
 ##  tz       Australia/Brisbane          
-##  date     2018-02-14</code></pre>
+##  date     2018-02-15</code></pre>
 <pre><code>## Packages -----------------------------------------------------------------</code></pre>
-<pre><code>##  package     * version    date       source                          
-##  assertthat    0.2.0      2017-04-11 CRAN (R 3.4.3)                  
-##  backports     1.1.2      2017-12-13 CRAN (R 3.4.3)                  
-##  base        * 3.4.3      2018-01-15 local                           
-##  bindr         0.1        2016-11-13 CRAN (R 3.4.3)                  
-##  bindrcpp    * 0.2        2017-06-17 CRAN (R 3.4.3)                  
-##  blogdown      0.5        2018-01-24 cran (@0.5)                     
-##  bookdown      0.6        2018-01-25 cran (@0.6)                     
-##  broom         0.4.3      2017-11-20 CRAN (R 3.4.3)                  
-##  cellranger    1.1.0      2016-07-27 CRAN (R 3.4.3)                  
-##  cli           1.0.0      2017-11-05 CRAN (R 3.4.3)                  
-##  colorspace    1.3-2      2016-12-14 CRAN (R 3.4.3)                  
-##  compiler      3.4.3      2018-01-15 local                           
-##  crayon        1.3.4      2017-09-16 CRAN (R 3.4.3)                  
-##  datasets    * 3.4.3      2018-01-15 local                           
-##  devtools      1.13.4     2017-11-09 CRAN (R 3.4.3)                  
-##  digest        0.6.15     2018-01-28 cran (@0.6.15)                  
-##  dplyr       * 0.7.4      2017-09-28 CRAN (R 3.4.3)                  
-##  evaluate      0.10.1     2017-06-24 CRAN (R 3.4.3)                  
-##  forcats     * 0.2.0      2017-01-23 CRAN (R 3.4.3)                  
-##  foreign       0.8-69     2017-06-22 CRAN (R 3.4.3)                  
-##  ggplot2     * 2.2.1.9000 2018-02-12 Github (hadley/ggplot2@39e4a3b) 
-##  glue          1.2.0      2017-10-29 CRAN (R 3.4.3)                  
-##  graphics    * 3.4.3      2018-01-15 local                           
-##  grDevices   * 3.4.3      2018-01-15 local                           
-##  grid          3.4.3      2018-01-15 local                           
-##  gridExtra     2.3        2017-09-09 CRAN (R 3.4.3)                  
-##  gtable        0.2.0      2016-02-26 CRAN (R 3.4.3)                  
-##  haven         1.1.1      2018-01-18 cran (@1.1.1)                   
-##  hms           0.4.1      2018-01-24 cran (@0.4.1)                   
-##  htmltools     0.3.6      2017-04-28 CRAN (R 3.4.3)                  
-##  httr          1.3.1      2017-08-20 CRAN (R 3.4.3)                  
-##  jsonlite      1.5        2017-06-01 CRAN (R 3.4.3)                  
-##  kableExtra  * 0.7.0      2018-01-15 CRAN (R 3.4.3)                  
-##  knitr         1.19       2018-01-29 cran (@1.19)                    
-##  labeling      0.3        2014-08-23 CRAN (R 3.4.3)                  
-##  lattice       0.20-35    2017-03-25 CRAN (R 3.4.3)                  
-##  lazyeval      0.2.1      2017-10-29 CRAN (R 3.4.3)                  
-##  lubridate     1.7.2      2018-02-06 cran (@1.7.2)                   
-##  magrittr      1.5        2014-11-22 CRAN (R 3.4.3)                  
-##  memoise       1.1.0      2017-04-21 CRAN (R 3.4.3)                  
-##  methods     * 3.4.3      2018-01-15 local                           
-##  mnormt        1.5-5      2016-10-15 CRAN (R 3.4.3)                  
-##  modelr        0.1.1      2017-07-24 CRAN (R 3.4.3)                  
-##  munsell       0.4.3      2016-02-13 CRAN (R 3.4.3)                  
-##  nlme          3.1-131    2017-02-06 CRAN (R 3.4.3)                  
-##  parallel      3.4.3      2018-01-15 local                           
-##  pillar        1.1.0      2018-01-14 CRAN (R 3.4.3)                  
-##  pkgconfig     2.0.1      2017-03-21 CRAN (R 3.4.3)                  
-##  plyr          1.8.4      2016-06-08 CRAN (R 3.4.3)                  
-##  psych         1.7.8      2017-09-09 CRAN (R 3.4.3)                  
-##  purrr       * 0.2.4      2017-10-18 CRAN (R 3.4.3)                  
-##  R6            2.2.2      2017-06-17 CRAN (R 3.4.3)                  
-##  Rcpp          0.12.15    2018-01-20 cran (@0.12.15)                 
-##  readr       * 1.1.1      2017-05-16 CRAN (R 3.4.3)                  
-##  readxl        1.0.0      2017-04-18 CRAN (R 3.4.3)                  
-##  reshape2      1.4.3      2017-12-11 CRAN (R 3.4.3)                  
-##  rlang         0.1.6.9003 2018-02-12 Github (tidyverse/rlang@616fd4d)
-##  rmarkdown     1.8        2017-11-17 CRAN (R 3.4.3)                  
-##  rprojroot     1.3-2      2018-01-03 CRAN (R 3.4.3)                  
-##  rstudioapi    0.7        2017-09-07 CRAN (R 3.4.3)                  
-##  rvest         0.3.2      2016-06-17 CRAN (R 3.4.1)                  
-##  scales        0.5.0.9000 2018-01-16 Github (hadley/scales@d767915)  
-##  stats       * 3.4.3      2018-01-15 local                           
-##  stringi       1.1.6      2017-11-17 CRAN (R 3.4.3)                  
-##  stringr     * 1.2.0      2017-02-18 CRAN (R 3.4.3)                  
-##  tibble      * 1.4.2      2018-01-22 cran (@1.4.2)                   
-##  tidyr       * 0.8.0      2018-01-29 cran (@0.8.0)                   
-##  tidyselect    0.2.3      2017-11-06 CRAN (R 3.4.3)                  
-##  tidyverse   * 1.2.1      2017-11-14 cran (@1.2.1)                   
-##  tools         3.4.3      2018-01-15 local                           
-##  utils       * 3.4.3      2018-01-15 local                           
-##  viridis     * 0.5.0      2018-02-02 cran (@0.5.0)                   
-##  viridisLite * 0.3.0      2018-02-01 cran (@0.3.0)                   
-##  withr         2.1.1.9000 2018-01-16 Github (jimhester/withr@df18523)
-##  xfun          0.1        2018-01-22 cran (@0.1)                     
-##  xml2          1.2.0      2018-01-24 cran (@1.2.0)                   
-##  yaml          2.1.16     2017-12-12 CRAN (R 3.4.3)</code></pre>
+<pre><code>##  package     * version    date       source                             
+##  assertthat    0.2.0      2017-04-11 CRAN (R 3.4.1)                     
+##  backports     1.1.2      2017-12-13 cran (@1.1.2)                      
+##  base        * 3.4.3      2018-01-14 local                              
+##  bindr         0.1        2016-11-13 CRAN (R 3.4.1)                     
+##  bindrcpp    * 0.2        2017-06-17 CRAN (R 3.4.1)                     
+##  blogdown      0.5        2018-01-24 CRAN (R 3.4.3)                     
+##  bookdown      0.6        2018-01-25 cran (@0.6)                        
+##  broom         0.4.3      2017-11-20 cran (@0.4.3)                      
+##  cellranger    1.1.0      2016-07-27 CRAN (R 3.4.1)                     
+##  cli           1.0.0      2017-11-05 cran (@1.0.0)                      
+##  codetools     0.2-15     2016-10-05 CRAN (R 3.4.3)                     
+##  colorspace    1.3-2      2016-12-14 CRAN (R 3.4.1)                     
+##  compiler      3.4.3      2018-01-14 local                              
+##  crayon        1.3.4      2017-09-16 cran (@1.3.4)                      
+##  datasets    * 3.4.3      2018-01-14 local                              
+##  devtools      1.13.4     2017-11-09 cran (@1.13.4)                     
+##  digest        0.6.15     2018-01-28 cran (@0.6.15)                     
+##  dplyr       * 0.7.4      2017-09-28 cran (@0.7.4)                      
+##  evaluate      0.10.1     2017-06-24 CRAN (R 3.4.1)                     
+##  forcats     * 0.2.0      2017-01-23 CRAN (R 3.4.1)                     
+##  foreign       0.8-69     2017-06-22 CRAN (R 3.4.3)                     
+##  ggplot2     * 2.2.1.9000 2018-02-12 Github (tidyverse/ggplot2@39e4a3b) 
+##  glue          1.2.0      2017-10-29 cran (@1.2.0)                      
+##  graphics    * 3.4.3      2018-01-14 local                              
+##  grDevices   * 3.4.3      2018-01-14 local                              
+##  grid          3.4.3      2018-01-14 local                              
+##  gridExtra     2.3        2017-09-09 cran (@2.3)                        
+##  gtable        0.2.0      2016-02-26 CRAN (R 3.4.1)                     
+##  haven         1.1.1      2018-01-18 cran (@1.1.1)                      
+##  hms           0.4.1      2018-01-24 cran (@0.4.1)                      
+##  htmltools     0.3.6      2017-04-28 CRAN (R 3.4.1)                     
+##  httr          1.3.1      2017-08-20 CRAN (R 3.4.3)                     
+##  jsonlite      1.5        2017-06-01 CRAN (R 3.4.1)                     
+##  kableExtra  * 0.7.0      2018-01-15 CRAN (R 3.4.3)                     
+##  knitr         1.19       2018-01-29 cran (@1.19)                       
+##  labeling      0.3        2014-08-23 CRAN (R 3.4.1)                     
+##  lattice       0.20-35    2017-03-25 CRAN (R 3.4.3)                     
+##  lazyeval      0.2.1      2017-10-29 cran (@0.2.1)                      
+##  lubridate     1.7.2      2018-02-06 cran (@1.7.2)                      
+##  magrittr      1.5        2014-11-22 CRAN (R 3.4.1)                     
+##  memoise       1.1.0      2017-04-21 CRAN (R 3.4.1)                     
+##  methods     * 3.4.3      2018-01-14 local                              
+##  mnormt        1.5-5      2016-10-15 CRAN (R 3.4.1)                     
+##  modelr        0.1.1      2017-07-24 CRAN (R 3.4.1)                     
+##  munsell       0.4.3      2016-02-13 CRAN (R 3.4.1)                     
+##  nlme          3.1-131    2017-02-06 CRAN (R 3.4.3)                     
+##  parallel      3.4.3      2018-01-14 local                              
+##  pillar        1.1.0      2018-01-14 cran (@1.1.0)                      
+##  pkgconfig     2.0.1      2017-03-21 CRAN (R 3.4.1)                     
+##  plyr          1.8.4      2016-06-08 CRAN (R 3.4.1)                     
+##  psych         1.7.8      2017-09-09 cran (@1.7.8)                      
+##  purrr       * 0.2.4      2017-10-18 cran (@0.2.4)                      
+##  R6            2.2.2      2017-06-17 CRAN (R 3.4.1)                     
+##  Rcpp          0.12.15    2018-01-20 cran (@0.12.15)                    
+##  readr       * 1.1.1      2017-05-16 CRAN (R 3.4.1)                     
+##  readxl        1.0.0      2017-04-18 CRAN (R 3.4.1)                     
+##  reshape2      1.4.3      2017-12-11 cran (@1.4.3)                      
+##  rlang         0.1.6.9003 2018-02-14 Github (tidyverse/rlang@0f626d1)   
+##  rmarkdown     1.8.10     2018-01-30 Github (rstudio/rmarkdown@b49b7eb) 
+##  rprojroot     1.3-2      2018-01-03 cran (@1.3-2)                      
+##  rstudioapi    0.7.0-9000 2017-12-19 Github (rstudio/rstudioapi@109e593)
+##  rvest         0.3.2      2016-06-17 CRAN (R 3.4.1)                     
+##  scales        0.5.0.9000 2017-09-21 Github (hadley/scales@d767915)     
+##  stats       * 3.4.3      2018-01-14 local                              
+##  stringi       1.1.6      2017-11-17 cran (@1.1.6)                      
+##  stringr     * 1.2.0      2017-02-18 CRAN (R 3.4.1)                     
+##  tibble      * 1.4.2      2018-01-22 cran (@1.4.2)                      
+##  tidyr       * 0.8.0      2018-01-29 cran (@0.8.0)                      
+##  tidyselect    0.2.3      2017-11-06 cran (@0.2.3)                      
+##  tidyverse   * 1.2.1      2017-11-14 cran (@1.2.1)                      
+##  tools         3.4.3      2018-01-14 local                              
+##  utils       * 3.4.3      2018-01-14 local                              
+##  viridis     * 0.5.0      2018-02-02 cran (@0.5.0)                      
+##  viridisLite * 0.3.0      2018-02-01 cran (@0.3.0)                      
+##  withr         2.1.1.9000 2017-12-21 Github (jimhester/withr@df18523)   
+##  xfun          0.1        2018-01-22 CRAN (R 3.4.3)                     
+##  xml2          1.2.0      2018-01-24 cran (@1.2.0)                      
+##  yaml          2.1.16     2017-12-12 cran (@2.1.16)</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>
@@ -830,11 +832,11 @@ commonly used for cartography but also useful for graphs.</p>
 <div id="ref-TIDYVERSE2017">
 <p>Wickham, H. 2017. <em>tidyverse: Easily Install and Load the ’Tidyverse’</em>. Available at: <a href="https://CRAN.R-project.org/package=tidyverse" class="uri">https://CRAN.R-project.org/package=tidyverse</a>.</p>
 </div>
-<div id="ref-TIDYR2018">
-<p>Wickham, H., and Henry, L. 2018. <em>tidyr: Easily Tidy Data with ’spread()’ and ’gather()’ Functions</em>. Available at: <a href="https://CRAN.R-project.org/package=tidyr" class="uri">https://CRAN.R-project.org/package=tidyr</a>.</p>
-</div>
 <div id="ref-DPLYR2017">
 <p>Wickham, H., Francois, R., Henry, L., and Müller, K. 2017. <em>dplyr: A Grammar of Data Manipulation</em>. Available at: <a href="https://CRAN.R-project.org/package=dplyr" class="uri">https://CRAN.R-project.org/package=dplyr</a>.</p>
+</div>
+<div id="ref-TIDYR2018">
+<p>Wickham, H., and Henry, L. 2018. <em>tidyr: Easily Tidy Data with ’spread()’ and ’gather()’ Functions</em>. Available at: <a href="https://CRAN.R-project.org/package=tidyr" class="uri">https://CRAN.R-project.org/package=tidyr</a>.</p>
 </div>
 <div id="ref-READR2017">
 <p>Wickham, H., Hester, J., and Francois, R. 2017. <em>readr: Read Rectangular Text Data</em>. Available at: <a href="https://CRAN.R-project.org/package=readr" class="uri">https://CRAN.R-project.org/package=readr</a>.</p>
