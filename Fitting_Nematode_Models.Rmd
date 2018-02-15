@@ -19,6 +19,7 @@ knitr::opts_chunk$set(cache = TRUE)
 
 [![DOI](https://zenodo.org/badge/119438897.svg)](https://zenodo.org/badge/latestdoi/119438897)
 [![](https://img.shields.io/badge/OPP-Peer%20Reviewed-brightgreen.svg)](https://github.com/openplantpathology/contributions/issues/1)
+[![GitHub version](https://img.shields.io/github/release/adamhsparks/Modelling_Nematode_Populations.svg)](https://github.com/adamhsparks/Modelling_Nematode_Populations)
 
 # Introduction
 
