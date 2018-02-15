@@ -4,3 +4,5 @@
 .RData
 .Ruserdata
 *.Rproj
+*.html
+^Fitting_Nematode_Models*
